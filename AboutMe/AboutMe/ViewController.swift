@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     let friendsStackView = UIStackView()
     var friendsCurrentIndex = 0
     
-    let imageNames = ["meshit", "meshit1", "park", "park1", "mountain", "mountain1", "sky", "mountain2", "mountain3",]
+    let imageNames = ["meshit", "city", "park", "meshit2", "mountain", "sky", "meshit1", "mountain3",]
     
     let imageNames2 = ["zhan", "uni", "dos1", "dos3", "dos6", "uni1", "dos2", "dos5", "dos7", "dos4"]
     
