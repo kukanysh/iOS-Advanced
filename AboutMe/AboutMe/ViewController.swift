@@ -22,16 +22,30 @@ class ViewController: UIViewController {
     let friendsStackView = UIStackView()
     var friendsCurrentIndex = 0
     
-    let imageNames = ["meshit", "city", "park", "meshit2", "mountain", "sky", "meshit1", "mountain3",]
+    let imageNames = ["meshit2", "city", "park", "meshit", "mountain", "sky", "meshit1", "mountain3",]
     
     let imageNames2 = ["zhan", "uni", "dos1", "dos3", "dos6", "uni1", "dos2", "dos5", "dos7", "dos4"]
     
     var timer: Timer?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.systemBackground
+
         // Do any additional setup after loading the view.
         
         
@@ -60,7 +74,7 @@ class ViewController: UIViewController {
             
             // Important: Match the width of the contentView to the scrollView's width
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalToConstant: 1933)
+            contentView.heightAnchor.constraint(equalToConstant: 2033)
             
         ])
         
@@ -111,12 +125,62 @@ class ViewController: UIViewController {
         yearText.lineBreakMode = .byWordWrapping
         
         
+        let faculty = UILabel()
+        faculty.text = "SITE"
+        faculty.font = UIFont(name: "Rockwell", size: 30)
+        faculty.translatesAutoresizingMaskIntoConstraints = false
+        faculty.numberOfLines = 0
+        faculty.lineBreakMode = .byWordWrapping
+        
+        
+        let facultyText = UILabel()
+        facultyText.text = "Faculty"
+        facultyText.font = UIFont(name: "Rockwell", size: 17)
+        facultyText.translatesAutoresizingMaskIntoConstraints = false
+        facultyText.numberOfLines = 0
+        facultyText.lineBreakMode = .byWordWrapping
+        
+        
+        
+        
+        
         let about = UILabel()
-        about.text = "Hello, I'm Kuanysh. As you can see I am 19 years old, and currently studying at the KBTU. I will introduce myself using this app."
+        about.text = "Hello, I'm Kuanysh. As you can see, I am 19 years old, and currently studying at the KBTU. I will introduce myself using this app. Scroll down to see more."
         about.font = UIFont(name: "Rockwell", size: 17)
         about.translatesAutoresizingMaskIntoConstraints = false
         about.numberOfLines = 0
         about.lineBreakMode = .byWordWrapping
+        
+        
+        let hobbies = createCard(imageName: "mountain1")
+        let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(openFirstScreen))
+        hobbies.addGestureRecognizer(tapGesture1)
+        hobbies.isUserInteractionEnabled = true
+        
+        let goals = createCard(imageName: "park1")
+        let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(openSecondScreen))
+        goals.addGestureRecognizer(tapGesture2)
+        goals.isUserInteractionEnabled = true
+        
+        let hobbieText = UILabel()
+        hobbieText.text = "Hobbies"
+        hobbieText.textColor = .white
+        hobbieText.font = UIFont(name: "Rockwell", size: 25)
+        hobbieText.translatesAutoresizingMaskIntoConstraints = false
+        hobbieText.numberOfLines = 0
+        hobbieText.lineBreakMode = .byWordWrapping
+        
+        let goalText = UILabel()
+        goalText.text = "Goals"
+        goalText.textColor = .white
+        goalText.font = UIFont(name: "Rockwell", size: 25)
+        goalText.translatesAutoresizingMaskIntoConstraints = false
+        goalText.numberOfLines = 0
+        goalText.lineBreakMode = .byWordWrapping
+        
+        
+        
+        
         
         
         
@@ -131,20 +195,34 @@ class ViewController: UIViewController {
         
         
         contentView.addSubview(introLabel)
-        contentView.addSubview(age)
-        contentView.addSubview(year)
         contentView.addSubview(name)
+        contentView.addSubview(age)
         contentView.addSubview(ageText)
+        contentView.addSubview(year)
         contentView.addSubview(yearText)
-        contentView.addSubview(photoText)
+        contentView.addSubview(faculty)
+        contentView.addSubview(facultyText)
         contentView.addSubview(about)
+        contentView.addSubview(photoText)
+        
+        contentView.addSubview(hobbies)
+        contentView.addSubview(goals)
+        contentView.addSubview(hobbieText)
+        contentView.addSubview(goalText)
+        
+
+        
+        
         
         NSLayoutConstraint.activate([
+            
             introLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30),
             introLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            introLabel.widthAnchor.constraint(equalToConstant: 250),
+            introLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.8),
             
-            name.topAnchor.constraint(equalTo: introLabel.bottomAnchor, constant: 30),
+           
+            
+            name.topAnchor.constraint(equalTo: introLabel.bottomAnchor, constant: 40),
             name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 150),
             name.widthAnchor.constraint(equalToConstant: 250),
             
@@ -157,11 +235,21 @@ class ViewController: UIViewController {
             
             
             year.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 25),
-            year.leadingAnchor.constraint(equalTo: age.trailingAnchor, constant: 100),
+            year.leadingAnchor.constraint(equalTo: age.trailingAnchor, constant: 30),
             
             
             yearText.topAnchor.constraint(equalTo: year.bottomAnchor, constant: 10),
             yearText.leadingAnchor.constraint(equalTo: year.leadingAnchor, constant: 0),
+            
+            
+            faculty.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 25),
+            faculty.leadingAnchor.constraint(equalTo: year.trailingAnchor, constant: 30),
+            
+            
+            facultyText.topAnchor.constraint(equalTo: faculty.bottomAnchor, constant: 10),
+            facultyText.leadingAnchor.constraint(equalTo: faculty.leadingAnchor, constant: 0),
+            
+            
             
             about.topAnchor.constraint(equalTo: yearText.bottomAnchor, constant: 30),
             about.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
@@ -169,10 +257,32 @@ class ViewController: UIViewController {
             about.heightAnchor.constraint(equalToConstant: 100),
             
             
-            photoText.topAnchor.constraint(equalTo: about.bottomAnchor, constant: 30),
+            photoText.topAnchor.constraint(equalTo: hobbies.bottomAnchor, constant: 30),
             photoText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
+            
+            hobbies.topAnchor.constraint(equalTo: about.bottomAnchor, constant: 25),
+            hobbies.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            hobbies.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.42),
+            hobbies.heightAnchor.constraint(equalToConstant: 80),
+            
+            goals.topAnchor.constraint(equalTo: about.bottomAnchor, constant: 25),
+            goals.leadingAnchor.constraint(equalTo: hobbies.trailingAnchor, constant: 20),
+            goals.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            goals.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.42), // 40% of screen width
+            goals.heightAnchor.constraint(equalToConstant: 80),
+            
+            
+            
+            hobbieText.centerXAnchor.constraint(equalTo: hobbies.centerXAnchor),
+            hobbieText.centerYAnchor.constraint(equalTo: hobbies.centerYAnchor),
+
+            goalText.centerXAnchor.constraint(equalTo: goals.centerXAnchor),
+            goalText.centerYAnchor.constraint(equalTo: goals.centerYAnchor),
+
+
         ])
+        
         
         let imageCircle = UIImageView(image: UIImage(named: "me2"))
         imageCircle.translatesAutoresizingMaskIntoConstraints = false
@@ -184,10 +294,10 @@ class ViewController: UIViewController {
         
         
         NSLayoutConstraint.activate([
-            imageCircle.topAnchor.constraint(equalTo: name.bottomAnchor, constant: -15),
+            imageCircle.topAnchor.constraint(equalTo: name.topAnchor, constant: 0),
             imageCircle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            imageCircle.widthAnchor.constraint(equalToConstant: 100),
-            imageCircle.heightAnchor.constraint(equalToConstant: 100),
+            imageCircle.widthAnchor.constraint(equalToConstant: 105),
+            imageCircle.heightAnchor.constraint(equalToConstant: 105),
             
             
             ])
@@ -205,45 +315,60 @@ class ViewController: UIViewController {
         contentView.addSubview(photoCard3)
     
         NSLayoutConstraint.activate([
-            
             photoCard.topAnchor.constraint(equalTo: photoText.bottomAnchor, constant: 25),
             photoCard.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            photoCard.heightAnchor.constraint(equalToConstant: 200),
-            photoCard.widthAnchor.constraint(equalToConstant: 170),
-            
+            photoCard.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.42),
+            photoCard.heightAnchor.constraint(equalTo: photoCard.widthAnchor, multiplier: 1.2),
+
             photoCard1.topAnchor.constraint(equalTo: photoText.bottomAnchor, constant: 25),
+            photoCard1.leadingAnchor.constraint(equalTo: photoCard.trailingAnchor, constant: 20),
             photoCard1.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            photoCard1.heightAnchor.constraint(equalToConstant: 150),
-            photoCard1.widthAnchor.constraint(equalToConstant: 170),
-            
+            photoCard1.widthAnchor.constraint(equalTo: photoCard.widthAnchor),
+            photoCard1.heightAnchor.constraint(equalTo: photoCard1.widthAnchor, multiplier: 0.9),
+
             photoCard2.topAnchor.constraint(equalTo: photoCard1.bottomAnchor, constant: 20),
+            photoCard2.leadingAnchor.constraint(equalTo: photoCard1.leadingAnchor),
             photoCard2.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            photoCard2.heightAnchor.constraint(equalToConstant: 200),
-            photoCard2.widthAnchor.constraint(equalToConstant: 170),
-            
+            photoCard2.widthAnchor.constraint(equalTo: photoCard1.widthAnchor),
+            photoCard2.heightAnchor.constraint(equalTo: photoCard2.widthAnchor, multiplier: 1.2),
+
             photoCard3.topAnchor.constraint(equalTo: photoCard.bottomAnchor, constant: 20),
             photoCard3.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            photoCard3.heightAnchor.constraint(equalToConstant: 150),
-            photoCard3.widthAnchor.constraint(equalToConstant: 170),
-            
+            photoCard3.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            photoCard3.widthAnchor.constraint(equalTo: photoCard.widthAnchor),
+            photoCard3.heightAnchor.constraint(equalTo: photoCard3.widthAnchor, multiplier: 0.9)
         ])
+
         
         
         let city = UILabel()
-        city.text = "My hometown is Shymkent, which is the third megapolis of Kazakhstan. It is located in the southern part of the country, so its climate is really warm."
+        city.text = "My hometown is Shymkent, which is the third megapolis of Kazakhstan. It is located in the southern part of the country, so its climate is really warm. The city is surrounded by mountains, so there is a lot of greenery."
         city.font = UIFont(name: "Rockwell", size: 17)
         city.translatesAutoresizingMaskIntoConstraints = false
         city.numberOfLines = 0
         city.lineBreakMode = .byWordWrapping
         
+        let cityText = UILabel()
+        cityText.text = "Shymkent City📍"
+        cityText.font = UIFont(name: "Rockwell", size: 25)
+        cityText.translatesAutoresizingMaskIntoConstraints = false
+        cityText.numberOfLines = 0
+        cityText.lineBreakMode = .byWordWrapping
+        
         contentView.addSubview(city)
+        contentView.addSubview(cityText)
         
         
         NSLayoutConstraint.activate([
             city.topAnchor.constraint(equalTo: photoCard3.bottomAnchor, constant: 20),
             city.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             city.widthAnchor.constraint(equalToConstant: 350),
-            city.heightAnchor.constraint(equalToConstant: 100),
+            city.heightAnchor.constraint(equalToConstant: 130),
+            
+            
+            cityText.topAnchor.constraint(equalTo: city.bottomAnchor, constant: 20),
+            cityText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            
             
         ])
         
@@ -251,15 +376,17 @@ class ViewController: UIViewController {
         photoScrollView.translatesAutoresizingMaskIntoConstraints = false
         photoScrollView.isPagingEnabled = true
         photoScrollView.showsHorizontalScrollIndicator = false
+        photoScrollView.layer.cornerRadius = 25
+        photoScrollView.clipsToBounds = true
         contentView.addSubview(photoScrollView)
         
         NSLayoutConstraint.activate([
-            photoScrollView.topAnchor.constraint(equalTo: city.bottomAnchor, constant: 20),
-            photoScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            photoScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            photoScrollView.heightAnchor.constraint(equalToConstant: 400),
+            photoScrollView.topAnchor.constraint(equalTo: cityText.bottomAnchor, constant: 20),
+            photoScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            photoScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            photoScrollView.heightAnchor.constraint(equalToConstant: 300)
         ])
-        
+
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -317,7 +444,7 @@ class ViewController: UIViewController {
             friends.topAnchor.constraint(equalTo: friendsText.bottomAnchor, constant: 20),
             friends.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             friends.widthAnchor.constraint(equalToConstant: 350),
-            friends.heightAnchor.constraint(equalToConstant: 100),
+            friends.heightAnchor.constraint(equalToConstant: 150),
 
             
             
@@ -326,12 +453,14 @@ class ViewController: UIViewController {
         friendsScrollView.translatesAutoresizingMaskIntoConstraints = false
         friendsScrollView.isPagingEnabled = true
         friendsScrollView.showsHorizontalScrollIndicator = false
+        friendsScrollView.layer.cornerRadius = 25
+        friendsScrollView.clipsToBounds = true
         contentView.addSubview(friendsScrollView)
         
         NSLayoutConstraint.activate([
             friendsScrollView.topAnchor.constraint(equalTo: friends.bottomAnchor, constant: 20),
-            friendsScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            friendsScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            friendsScrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            friendsScrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             friendsScrollView.heightAnchor.constraint(equalToConstant: 300),
             
             
@@ -339,6 +468,8 @@ class ViewController: UIViewController {
             thanks.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             
         ])
+        
+        
         
         friendsStackView.axis = .horizontal
         friendsStackView.distribution = .fillEqually
@@ -460,6 +591,23 @@ class ViewController: UIViewController {
         timer?.invalidate()
         friendsTimer?.invalidate()
     }
+    
+    
+    @objc func openFirstScreen() {
+        let firstScreen = HobbiesViewController()
+        navigationController?.pushViewController(firstScreen, animated: true)
+    }
+
+    @objc func openSecondScreen() {
+        let secondScreen = GoalsViewController()
+        navigationController?.pushViewController(secondScreen, animated: true)
+    }
+    
+    
 }
+
+
+
+
 
 
