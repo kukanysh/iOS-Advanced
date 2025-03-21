@@ -34,7 +34,7 @@ struct ContentView: View {
                         .frame(width: UIScreen.main.bounds.width, height: 450)
                         .ignoresSafeArea()
                     
-                @unknown default:
+            default:
                     EmptyView()
                 }
             }
