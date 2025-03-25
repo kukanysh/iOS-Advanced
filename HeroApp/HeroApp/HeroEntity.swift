@@ -17,7 +17,7 @@ struct HeroEntity: Decodable {
     var fullName: String {
         biography.fullName ?? "Unknown"
     }
-    var placeOfBirth: String? {
+    var placeOfBirth: String {
         biography.placeOfBirth ?? "Unknown"
     }
     var heroImageUrl: URL? {
@@ -40,12 +40,12 @@ struct HeroEntity: Decodable {
     }
     
     struct PowerStats: Decodable {
-        let intelligence: Int?
-        let strength: Int?
-        let speed: Int?
-        let durability: Int?
-        let power: Int?
-        let combat: Int?
+        let intelligence: Int
+        let strength: Int
+        let speed: Int
+        let durability: Int
+        let power: Int
+        let combat: Int
     }
     
     struct Work: Decodable {

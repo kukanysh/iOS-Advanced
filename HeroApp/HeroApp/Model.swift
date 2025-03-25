@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct Model {
+struct Model: Identifiable {
     let id: Int
     let title: String
     let description: String
     let heroImage: URL?
     let fullName: String
-    let placeOfBirth: String
     let occupation: String
-    let powerStats: String
+    let placeOfBirth: String
+    let powerstat: Int
+    
 }

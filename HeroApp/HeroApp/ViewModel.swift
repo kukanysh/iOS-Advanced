@@ -18,10 +18,13 @@ final class ViewModel: ObservableObject {
         self.service = service
         self.router = router
     }
-
+    
+    
+    
     func fetchHeroes() async {
         do {
             let heroesResponse = try await service.fetchHeroes()
+            
             await MainActor.run {
                 heroes = heroesResponse.map {
                     Model(
@@ -30,19 +33,24 @@ final class ViewModel: ObservableObject {
                         description: $0.appearance.race ?? "No Race",
                         heroImage: $0.heroImageUrl,
                         fullName: $0.fullName,
-                        placeOfBirth: $0.placeOfBirth ?? "Unknown",
                         occupation: $0.occupation,
-                        powerStats: "Intelligence: \($0.powerstats.intelligence ?? 0), Strength: \($0.powerstats.strength ?? 0)"
+                        placeOfBirth: $0.placeOfBirth,
+                        powerstat: $0.powerstats.power
                     )
                 }
             }
         } catch {
             print("Error: \(error.localizedDescription)")
         }
+ 
+    }
+    
+    func routeToDetail(by id: Int) {
+        guard let model = heroes.first(where: { $0.id == id }) else { return }
+        router.showDetails(for: model)
     }
 
-    func routeToDetail(by id: Int) {
-        guard let hero = heroes.first(where: { $0.id == id }) else { return }
-        router.showDetails(for: hero)
-    }
+    
 }
+
+
