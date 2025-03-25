@@ -9,33 +9,40 @@ import Foundation
 
 
 final class ViewModel: ObservableObject {
-    @Published var selectedHero: Hero?
-    
-    
-    
-    func fetchHero() async {
-        guard
-            let url = URL(string: "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/all.json")
-        else {
-            return
-        }
-        
-        
-        let urlRequest = URLRequest(url: url)
-        
+    @Published private(set) var heroes: [Model] = []
+
+    private let service: HeroService
+    private let router: HeroRouter
+
+    init(service: HeroService, router: HeroRouter) {
+        self.service = service
+        self.router = router
+    }
+
+    func fetchHeroes() async {
         do {
-            let(data, _) = try await URLSession.shared.data(for: urlRequest)
-            let heroes = try JSONDecoder().decode([Hero].self, from: data)
-            let randomHero = heroes.randomElement()
-            
+            let heroesResponse = try await service.fetchHeroes()
             await MainActor.run {
-                selectedHero = randomHero
+                heroes = heroesResponse.map {
+                    Model(
+                        id: $0.id,
+                        title: $0.name,
+                        description: $0.appearance.race ?? "No Race",
+                        heroImage: $0.heroImageUrl,
+                        fullName: $0.fullName,
+                        placeOfBirth: $0.placeOfBirth ?? "Unknown",
+                        occupation: $0.occupation,
+                        powerStats: "Intelligence: \($0.powerstats.intelligence ?? 0), Strength: \($0.powerstats.strength ?? 0)"
+                    )
+                }
             }
-        }
-        catch {
-            print("Error fetching hero \(error)")
-            
+        } catch {
+            print("Error: \(error.localizedDescription)")
         }
     }
-}
 
+    func routeToDetail(by id: Int) {
+        guard let hero = heroes.first(where: { $0.id == id }) else { return }
+        router.showDetails(for: hero)
+    }
+}

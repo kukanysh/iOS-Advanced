@@ -14,7 +14,7 @@
 		DCCC03282D89DC6E006AD141 /* Exceptions for "HeroApp" folder in "HeroApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Resources/Info.plist,
+				Info.plist,
 			);
 			target = DCCC03152D89DC6B006AD141 /* HeroApp */;
 		};
