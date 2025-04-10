@@ -178,7 +178,7 @@ struct ContentView: View {
                     .padding(.leading, -160)
                 
                 WeatherMapView(region: $region)
-                    .frame(height: 150)
+                    .frame(height: 160)
                     .background(Color.black.opacity(0.4))
                     .cornerRadius(20)
                     .padding()
@@ -334,11 +334,11 @@ struct WeatherMapView: UIViewRepresentable {
         let mapView = MKMapView()
         mapView.setRegion(region, animated: true)
         
-        let weatherMapURL = "http://maps.openweathermap.org/maps/2.0/weather/TA2/{z}/{x}/{y}?appid=\(apiKey)&fill_bound=false&opacity=0.6"
+        let weatherMapURL = "https://maps.openweathermap.org/maps/2.0/weather/TA2/{z}/{x}/{y}?appid=\(apiKey)&fill_bound=true&opacity=0.9"
         
         let tileOverlay = MKTileOverlay(urlTemplate: weatherMapURL)
         tileOverlay.canReplaceMapContent = true
-        mapView.addOverlay(tileOverlay, level: .aboveLabels)
+        mapView.addOverlay(tileOverlay, level: .aboveRoads)
         
         mapView.delegate = context.coordinator
         
