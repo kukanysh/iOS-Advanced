@@ -44,6 +44,8 @@ final class ViewModel: ObservableObject {
     }
     
     
+    
+    
     func fetchCurrentWeather(for city: String) async throws -> WeatherModel {
         let url = WeatherAPI.currentWeatherURL(for: city)
         let (data, _) = try await URLSession.shared.data(from: url)

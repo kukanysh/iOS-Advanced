@@ -10,7 +10,7 @@ import SwiftUI
 
 final class ViewModel: ObservableObject {
     @Published var images: [Model] = []
-    private let imageQueue = DispatchQueue(label: "com.kbklogistics.imageQueue", attributes: .concurrent)
+    private let imageQueue = DispatchQueue(label: "imageQueue", attributes: .concurrent)
 
     func getImages() {
         var tempImages: [Model] = []

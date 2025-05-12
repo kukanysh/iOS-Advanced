@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var weatherBundle: WeatherBundle?
     @State private var errorMessage: String?
     @State private var region: MKCoordinateRegion = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 43.222, longitude: 76.851), // Default to Almaty, Kazakhstan
+            center: CLLocationCoordinate2D(latitude: 43.222, longitude: 76.851), //Almaty coordinates
             span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         )
 
