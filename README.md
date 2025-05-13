@@ -1,6 +1,6 @@
 # MedEasy - IOS Advanced Final Project
 
-## MedEasy is a digital healthcare platform designed to enhance the patient experience by providing seamless online appointment booking and secure storage of medical records. The platform aims to bridge the gap between patients and healthcare providers by offering a user-friendly and efficient healthcare management system.
+### MedEasy is a digital healthcare platform designed to enhance the patient experience by providing seamless online appointment booking and secure storage of medical records. The platform aims to bridge the gap between patients and healthcare providers by offering a user-friendly and efficient healthcare management system.
 
 ## 🛠 Tech Stack
   	SwiftUI + UIKit (UIHostingController)
@@ -23,4 +23,7 @@
  	Checking "My Bookings"
   	List of Doctors
    	Call Center
-    	
+## 📐 Architecture
+	Model: Pure structs 
+	ViewModel: Handles logic, Combine publishers
+	View: Pure SwiftUI views with no business logic
