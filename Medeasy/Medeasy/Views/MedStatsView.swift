@@ -9,7 +9,13 @@ import SwiftUI
 
 struct MedStatsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("This is page dedicated to your health statistics. WE HOPE YOUR HEALTH IS GREAT!")
+            Image("meme")
+                .resizable()
+                .scaledToFit()
+        }
+        
     }
 }
 

@@ -1,0 +1,16 @@
+[
+  {
+    "doctorId": 1,
+    "reviews": [
+      {
+        "author": "Igenbek Zhaina",
+        "content": "Doctor Mynzhylky is a highly skilled neurosurgeon..."
+      },
+      {
+        "author": "Bozbashaeva Balzhan",
+        "content": "Very attentive and knowledgeable. Helped a lot!"
+      }
+    ]
+  }
+]
+

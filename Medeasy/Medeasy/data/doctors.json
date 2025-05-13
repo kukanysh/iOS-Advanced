@@ -1,0 +1,259 @@
+[
+    {
+        "id": 1,
+        "fullName": "Mynzhylky Berdikhozhayev",
+        "shortName": "Berdikhozhaev.M",
+        "specialty": "Neurosurgeon",
+        "imageName": "berdikhozhaev",
+        "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "reviews": [
+            { "author": "Jin W.", "text": "Finally got my allergy under control!" }
+        ]
+    },
+    {
+        "id": 2,
+        "fullName": "Abylkasymov A",
+        "shortName": "Abylkasymov.A",
+        "specialty": "Neurosurgeon",
+        "imageName": "abylkasymov",
+        "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "reviews": [
+            { "author": "Anna L.", "text": "Smart and methodical doctor." }
+        ]
+    },
+    {
+        "id": 3,
+        "fullName": "Aldiyarov A",
+        "shortName": "Aldiyarov.A",
+        "specialty": "Neurosurgeon",
+        "imageName": "aldiyarov",
+        "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "reviews": [
+            { "author": "Lina M.", "text": "Accurate diagnosis and long-term plan." }
+        ]
+    },
+    {
+        "id": 4,
+        "fullName": "Ayupova Sh",
+        "shortName": "Ayupova. Sh",
+        "specialty": "Neurosurgeon",
+        "imageName": "ayupova",
+        "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "reviews": [
+            { "author": "Chloe P.", "text": "Appendectomy went perfectly. Thanks!" }
+        ]
+    },
+    {
+        "id": 5,
+        "fullName": "Bulanov B",
+        "shortName": "Bulanov.B",
+        "specialty": "Neurosurgeon",
+        "imageName": "bulanov",
+        "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "reviews": [
+            { "author": "Yassine K.", "text": "Helped me through a serious asthma episode." }
+        ]
+    },
+    {
+        "id": 6,
+        "fullName": "Baigurin A",
+        "shortName": "Baigurin.A",
+        "specialty": "Neurosurgeon",
+        "imageName": "baigurin",
+        "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "reviews": [
+            { "author": "Marco D.", "text": "Professional and confidential." }
+        ]
+    },
+    {
+        "id": 7,
+        "fullName": "Aigerim Zhunusova",
+        "shortName": "Aigerim",
+        "specialty": "Cardiologist",
+        "imageName": "ayupova",
+        "about": "Specialist in heart disease prevention and treatment.",
+        "reviews": [
+            { "author": "Serik Bolatov", "text": "Saved my life with early diagnosis." },
+            { "author": "Dana Tolegen", "text": "Polite, kind, knowledgeable." }
+        ]
+    },
+    {
+        "id": 8,
+        "fullName": "Dias Kadyrov",
+        "shortName": "Dias",
+        "specialty": "Dermatologist",
+        "imageName": "abylkasymov",
+        "about": "Focused on acne and chronic skin conditions.",
+        "reviews": [
+            { "author": "Madina Kalieva", "text": "My skin has never looked better!" },
+            { "author": "Erzhan Omarkhan", "text": "Friendly and effective treatment." }
+        ]
+    },
+    {
+        "id": 9,
+        "fullName": "Emily Thompson",
+        "shortName": "Emily",
+        "specialty": "Pediatrician",
+        "imageName": "ayupova",
+        "about": "Compassionate pediatrician with 10+ years of experience.",
+        "reviews": [
+            { "author": "Kelly M.", "text": "My kids love her. Very gentle and smart." }
+        ]
+    },
+    {
+        "id": 10,
+        "fullName": "Rajesh Kumar",
+        "shortName": "Rajesh",
+        "specialty": "Oncologist",
+        "imageName": "aldiyarov",
+        "about": "Leading cancer specialist with innovative treatment approaches.",
+        "reviews": [
+            { "author": "Fatima N.", "text": "Saved my uncle’s life. Forever thankful." }
+        ]
+    },
+    {
+        "id": 11,
+        "fullName": "Sophie Dubois",
+        "shortName": "Sophie",
+        "specialty": "Gynecologist",
+        "imageName": "ayupova",
+        "about": "Expert in women’s health and maternity care.",
+        "reviews": [
+            { "author": "Isabelle R.", "text": "Very supportive during my pregnancy." }
+        ]
+    },
+    {
+        "id": 12,
+        "fullName": "Yusuf El-Amin",
+        "shortName": "Yusuf",
+        "specialty": "Endocrinologist",
+        "imageName": "bulanov",
+        "about": "Focused on hormone disorders and diabetes treatment.",
+        "reviews": [
+            { "author": "Ahmed B.", "text": "Helped me manage my thyroid condition." }
+        ]
+    },
+    {
+        "id": 13,
+        "fullName": "Laura Garcia",
+        "shortName": "Laura",
+        "specialty": "Family Medicine",
+        "imageName": "ayupova",
+        "about": "Primary care physician known for personalized care.",
+        "reviews": [
+            { "author": "Jorge M.", "text": "Listens carefully and explains well." }
+        ]
+    },
+    {
+        "id": 14,
+        "fullName": "Kenji Tanaka",
+        "shortName": "Kenji",
+        "specialty": "Orthopedic Surgeon",
+        "imageName": "abylkasymov",
+        "about": "Orthopedic expert focused on sports injuries.",
+        "reviews": [
+            { "author": "Takuya S.", "text": "Restored full motion after ACL surgery!" }
+        ]
+    },
+    {
+        "id": 15,
+        "fullName": "Maria Petrova",
+        "shortName": "Maria",
+        "specialty": "Psychiatrist",
+        "imageName": "ayupova",
+        "about": "Experienced in mood disorders and therapy.",
+        "reviews": [
+            { "author": "Olga V.", "text": "Truly helped me recover emotionally." }
+        ]
+    },
+    {
+        "id": 16,
+        "fullName": "James O'Connor",
+        "shortName": "James",
+        "specialty": "Ophthalmologist",
+        "imageName": "baigurin",
+        "about": "Eye care specialist focused on surgeries and laser treatment.",
+        "reviews": [
+            { "author": "Sean R.", "text": "Quick LASIK procedure, great results." }
+        ]
+    },
+    {
+        "id": 17,
+        "fullName": "Chen Mei-Ling",
+        "shortName": "Mei-Ling",
+        "specialty": "Rheumatologist",
+        "imageName": "aldiyarov",
+        "about": "Treats arthritis and autoimmune diseases with precision.",
+        "reviews": [
+            { "author": "Ling Zhao", "text": "Very knowledgeable and patient." }
+        ]
+    },
+    {
+        "id": 18,
+        "fullName": "Antonio Ricci",
+        "shortName": "Antonio",
+        "specialty": "Urologist",
+        "imageName": "baigurin",
+        "about": "Handles urinary tract issues and men’s health.",
+        "reviews": [
+            { "author": "Marco D.", "text": "Professional and confidential." }
+        ]
+    },
+    {
+        "id": 19,
+        "fullName": "Fatima Zahra",
+        "shortName": "Fatima",
+        "specialty": "Pulmonologist",
+        "imageName": "ayupova",
+        "about": "Expert in respiratory and lung diseases.",
+        "reviews": [
+            { "author": "Yassine K.", "text": "Helped me through a serious asthma episode." }
+        ]
+    },
+    {
+        "id": 20,
+        "fullName": "Benjamin Lee",
+        "shortName": "Ben",
+        "specialty": "General Surgeon",
+        "imageName": "baigurin",
+        "about": "Performs a wide range of general surgeries safely.",
+        "reviews": [
+            { "author": "Chloe P.", "text": "Appendectomy went perfectly. Thanks!" }
+        ]
+    },
+    {
+        "id": 21,
+        "fullName": "Amira Nassar",
+        "shortName": "Amira",
+        "specialty": "Neurologist",
+        "imageName": "abylkasymov",
+        "about": "Specializes in epilepsy and neurological disorders.",
+        "reviews": [
+            
+            
+            { "author": "Lina M.", "text": "Accurate diagnosis and long-term plan." }
+        ]
+    },
+    {
+        "id": 22,
+        "fullName": "Robert Fischer",
+        "shortName": "Robert",
+        "specialty": "Internist",
+        "imageName": "bulanov",
+        "about": "Internal medicine specialist handling complex diagnoses.",
+        "reviews": [
+            { "author": "Anna L.", "text": "Smart and methodical doctor." }
+        ]
+    },
+    {
+        "id": 23,
+        "fullName": "Nina Park",
+        "shortName": "Nina",
+        "specialty": "Immunologist",
+        "imageName": "ayupova",
+        "about": "Works with immune system disorders and allergies.",
+        "reviews": [
+            { "author": "Jin W.", "text": "Finally got my allergy under control!" }
+        ]
+    }
+]
