@@ -17,7 +17,7 @@
  	Doctor search 
   	Leave feedback
    	Book appointment
-    	Checking available time slots
+    Checking available time slots
 ###    Settings
 	Viewing profile
  	Checking "My Bookings"
