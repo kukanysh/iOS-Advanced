@@ -28,6 +28,6 @@
 	ViewModel: Handles logic, Combine publishers
 	View: Pure SwiftUI views with no business logic
 ## 👤 Team Members
-Spandiyar Kuanysh
-Igenbek Zhaina
-Bozbashayeva Balzhan
+### Spandiyar Kuanysh
+### Igenbek Zhaina
+### Bozbashayeva Balzhan
