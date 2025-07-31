@@ -7,12 +7,14 @@
         "imageName": "berdikhozhaev",
         "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         "reviews": [
+            { "author": "Jin W.", "text": "Finally got my allergy under control!" },
+            { "author": "Jin W.", "text": "Finally got my allergy under control!" },
             { "author": "Jin W.", "text": "Finally got my allergy under control!" }
         ]
     },
     {
         "id": 2,
-        "fullName": "Abylkasymov A",
+        "fullName": "Abylkasymov Almas",
         "shortName": "Abylkasymov.A",
         "specialty": "Neurosurgeon",
         "imageName": "abylkasymov",
@@ -23,7 +25,7 @@
     },
     {
         "id": 3,
-        "fullName": "Aldiyarov A",
+        "fullName": "Aldiyarov Arman",
         "shortName": "Aldiyarov.A",
         "specialty": "Neurosurgeon",
         "imageName": "aldiyarov",
@@ -34,7 +36,7 @@
     },
     {
         "id": 4,
-        "fullName": "Ayupova Sh",
+        "fullName": "Ayupova Shakira",
         "shortName": "Ayupova. Sh",
         "specialty": "Neurosurgeon",
         "imageName": "ayupova",
@@ -45,7 +47,7 @@
     },
     {
         "id": 5,
-        "fullName": "Bulanov B",
+        "fullName": "Bulanov Bulat",
         "shortName": "Bulanov.B",
         "specialty": "Neurosurgeon",
         "imageName": "bulanov",
@@ -56,7 +58,7 @@
     },
     {
         "id": 6,
-        "fullName": "Baigurin A",
+        "fullName": "Baigurin Aidos",
         "shortName": "Baigurin.A",
         "specialty": "Neurosurgeon",
         "imageName": "baigurin",

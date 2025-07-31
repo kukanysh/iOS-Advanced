@@ -13,37 +13,40 @@ struct ContentView: View {
         
         TabView {
             
-            NavigationView {
-                HomeView()
+            NavigationStack {
+                MainPageView()
             }
-            .tabItem {
-                Image("line")
-                    .renderingMode(.template)
-                Text("Home")
-            }
+                    .tabItem {
+                        Image("line")
+                            .renderingMode(.template)
+                        Text("Home")
+                    }
             
-            MedStatsView()
-                .tabItem {
-                    Image("grommet")
-                        .renderingMode(.template)
-                    Text("Stats")
-                }
+                
+                MedStatsView()
+                    .tabItem {
+                        Image("grommet")
+                            .renderingMode(.template)
+                        Text("Stats")
+                    }
+                
+                ProfileView()
+                    .tabItem {
+                        Image("profile")
+                            .renderingMode(.template)
+                        Text("Profile")
+                    }
+                
+                SettingsView()
+                    .tabItem {
+                        Image("settings")
+                            .renderingMode(.template)
+                        Text("Settings")
+                    }
             
-            ProfileView()
-                .tabItem {
-                    Image("profile")
-                        .renderingMode(.template)
-                    Text("Profile")
-                }
             
-            SettingsView()
-                .tabItem {
-                    Image("settings")
-                        .renderingMode(.template)
-                    Text("Settings")
-                }
-            
-        }.tint(.black)
+        }.toolbarBackground(Color.blueish, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
             
     }
 }
