@@ -14,42 +14,48 @@ struct ContentView: View {
         TabView {
             
             NavigationStack {
+                
                 MainPageView()
+                    .ignoresSafeArea()
+                
             }
-                    .tabItem {
-                        Image("line")
-                            .renderingMode(.template)
-                        Text("Home")
-                    }
+            .tabItem {
+                Image("line")
+                    .renderingMode(.template)
+                Text("Home")
+            }
             
-                
-                MedStatsView()
-                    .tabItem {
-                        Image("grommet")
-                            .renderingMode(.template)
-                        Text("Stats")
-                    }
-                
-                ProfileView()
-                    .tabItem {
-                        Image("profile")
-                            .renderingMode(.template)
-                        Text("Profile")
-                    }
-                
-                SettingsView()
-                    .tabItem {
-                        Image("settings")
-                            .renderingMode(.template)
-                        Text("Settings")
-                    }
+            
+            MedStatsView()
+                .tabItem {
+                    Image("grommet")
+                        .renderingMode(.template)
+                    Text("Stats")
+                }
+            
+            ProfileView()
+                .tabItem {
+                    Image("profile")
+                        .renderingMode(.template)
+                    Text("Profile")
+                }
+            
+            SettingsView()
+                .tabItem {
+                    Image("settings")
+                        .renderingMode(.template)
+                    Text("Settings")
+                }
             
             
         }.toolbarBackground(Color.blueish, for: .tabBar)
-        .toolbarBackground(.visible, for: .tabBar)
-            
+            .toolbarBackground(.visible, for: .tabBar)
+        
+        
     }
+    
 }
+
 
 #Preview {
     ContentView()

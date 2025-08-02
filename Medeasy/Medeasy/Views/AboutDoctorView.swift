@@ -16,8 +16,9 @@ struct AboutDoctorView: View {
                 Image(doctor.imageName)
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 300)
+                    .frame(height: 350)
                     .clipped()
+                    .padding(.top, -16)
                 
                 Text(doctor.fullName)
                     .font(.title2)
@@ -96,7 +97,11 @@ struct AboutDoctorView: View {
             }
             .padding(.top)
         }
+        .ignoresSafeArea()
+        .safeAreaPadding(.horizontal, -50)
         .background(Color("lightBlue"))
+        .toolbarBackground(.hidden, for: .navigationBar)
+        
     }
 }
 

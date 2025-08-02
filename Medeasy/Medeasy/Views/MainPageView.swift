@@ -32,6 +32,7 @@ struct DoctorCard: View {
                         .bold()
                         .foregroundStyle(.blueish)
                         .lineLimit(2)
+                        .multilineTextAlignment(.leading)
                     
                     Text(doctor.specialty)
                         .font(.title3)
@@ -101,172 +102,187 @@ struct MainPageView: View {
     
     var body: some View {
         NavigationStack {
-            VStack {
-                ScrollView() {
-                    
-                    HStack {
-                        Image("Medeasy")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                        
-                        Text("MEDEASY")
-                            .font(.title2)
-                            .bold()
-                            .foregroundStyle(.blueish)
-                        
-                    }
-                    
-                    
-                    HStack {
-                        Text("Hi, \(userDataLoader.fullName)")
-                            .padding(.leading, 20)
-                            .padding(.bottom, 20)
-                            .padding(.top, 10)
-                            .font(.title3)
-                            .bold()
-                            .foregroundStyle(.blueish)
-                        
-                        Spacer()
-                        
-                    }
-                    
-                    
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 35)
-                            .frame(width: UIScreen.main.bounds.width - 40, height: 200)
-                            .foregroundStyle(.lightBlue)
+            ZStack(alignment: .bottomTrailing) {
+                VStack {
+                    ScrollView() {
                         
                         HStack {
-                            Spacer()
-                            
-                            Text("Your health, one tap away")
-                                .font(.title2)
-                                .bold()
-                                .foregroundStyle(.blueish)
-                                .padding(.leading, 20)
-                            
-                            
-                            Image("doct")
+                            Image("Medeasy")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 200)
-                        }
-                        
-                    }
-                    
-                    
-                    //MARK: - Services
-                    
-                    VStack {
-                        
-                        
-                        HStack {
+                                .frame(width: 50, height: 50)
                             
-                            Text("Services")
+                            Text("MEDEASY")
                                 .font(.title2)
                                 .bold()
                                 .foregroundStyle(.blueish)
-                                .padding(.top, 30)
+                            
+                        }
+                        
+                        
+                        HStack {
+                            Text("Hi, \(userDataLoader.fullName)")
                                 .padding(.leading, 20)
+                                .padding(.bottom, 20)
+                                .padding(.top, 10)
+                                .font(.title3)
+                                .bold()
+                                .foregroundStyle(.blueish)
                             
                             Spacer()
                             
                         }
                         
                         
-                        
-                        
-                        HStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 35)
+                                .frame(width: UIScreen.main.bounds.width - 40, height: 200)
+                                .foregroundStyle(.lightBlue)
                             
-                            Button("Schedule Visit") {
+                            HStack {
+                                Spacer()
+                                
+                                Text("Your health, one tap away")
+                                    .font(.title2)
+                                    .bold()
+                                    .foregroundStyle(.blueish)
+                                    .padding(.leading, 20)
+                                
+                                
+                                Image("doct")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 200)
+                            }
+                            
+                        }
+                        
+                        
+                        //MARK: - Services
+                        
+                        VStack {
+                            
+                            
+                            HStack {
+                                
+                                Text("Services")
+                                    .font(.title2)
+                                    .bold()
+                                    .foregroundStyle(.blueish)
+                                    .padding(.top, 30)
+                                    .padding(.leading, 20)
+                                
+                                Spacer()
                                 
                             }
-                            .buttonStyle(ServiceButtonStyle())
                             
                             
                             
-                            Button("Call Ambulance") {
+                            
+                            HStack {
                                 
-                            }.buttonStyle(ServiceButtonStyle(
-                                cornerRadius: 35,
-                                padding: EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20),
-                                textColor: .red,
-                                backgroundColor: .white,
-                                borderColor: .red, lineWidth: 3
-                            ))
-                            
-                            
-                        }
-                        
-                        HStack {
-                            
-                            Button("Nearby Hospitals") {
-                                print("")
-                            }.buttonStyle(ServiceButtonStyle(
-                                cornerRadius: 35,
-                                padding: EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0),
-                                textColor: .blueish,
-                                backgroundColor: .lightBlue
-                            ))
-                            
-                            
-                            Button("Upcoming Visits") {
+                                Button("Schedule Visit") {
+                                    
+                                }
+                                .buttonStyle(ServiceButtonStyle())
                                 
-                            }.buttonStyle(ServiceButtonStyle(
-                                padding: EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20)))
-                            
-                        }
-                        
-                        
-                        
-                    }
-                    
-                    
-                    VStack {
-                        HStack {
-                            
-                            Text("Popular doctors")
-                                .font(.title2)
-                                .bold()
-                                .foregroundStyle(.blueish)
-                                .padding(.top, 20)
-                                .padding(.leading, 20)
-                            
-                            Spacer()
-                            
-                            NavigationLink(destination: HomeView()) {
-                                Text("Show All")
-                                    .foregroundStyle(.gray)
+                                
+                                
+                                Button("Call Ambulance") {
+                                    
+                                }.buttonStyle(ServiceButtonStyle(
+                                    cornerRadius: 35,
+                                    padding: EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20),
+                                    textColor: .red,
+                                    backgroundColor: .white,
+                                    borderColor: .red, lineWidth: 3
+                                ))
+                                
+                                
                             }
-                            .padding(.trailing, 20)
-                            .padding(.top, 22)
+                            
+                            HStack {
+                                
+                                Button("Nearby Hospitals") {
+                                    print("")
+                                }.buttonStyle(ServiceButtonStyle(
+                                    cornerRadius: 35,
+                                    padding: EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0),
+                                    textColor: .blueish,
+                                    backgroundColor: .lightBlue
+                                ))
+                                
+                                
+                                Button("Upcoming Visits") {
+                                    
+                                }.buttonStyle(ServiceButtonStyle(
+                                    padding: EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20)))
+                                
+                            }
+                            
+                            
+                            
                         }
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 16) {
-                                ForEach(doctorViewModel.doctors.prefix(6)) { doctor in
-                                    NavigationLink(destination: AboutDoctorView(doctor: doctor)) {
-                                        DoctorCard(doctor: doctor)
+                        
+                        VStack {
+                            HStack {
+                                
+                                Text("Popular doctors")
+                                    .font(.title2)
+                                    .bold()
+                                    .foregroundStyle(.blueish)
+                                    .padding(.top, 20)
+                                    .padding(.leading, 20)
+                                
+                                Spacer()
+                                
+                                NavigationLink(destination: HomeView()) {
+                                    Text("Show All")
+                                        .foregroundStyle(.gray)
+                                }
+                                .padding(.trailing, 20)
+                                .padding(.top, 22)
+                            }
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 16) {
+                                    ForEach(doctorViewModel.doctors.prefix(6)) { doctor in
+                                        NavigationLink(destination: AboutDoctorView(doctor: doctor)) {
+                                            DoctorCard(doctor: doctor)
+                                        }
                                     }
                                 }
+                                .padding(.horizontal, 20)
+                                .padding(.top, 10)
                             }
-                            .padding(.horizontal, 20)
-                            .padding(.top, 10)
+                            
                         }
                         
+                        
+                        
                     }
-                    
-                    
-                    
                 }
+                .onAppear {
+                    userDataLoader.loadUserData()
+                }
+                
+                NavigationLink(destination: ChatView()) {
+                    Image("chatbot")
+                        .resizable()
+                        .frame(width: 55, height: 50)
+                        .padding()
+                        .background(Color.blueish)
+                        .clipShape(Circle())
+                        .shadow(radius: 4)
+                }
+                .padding(.trailing, 20)
+                .padding(.bottom, 30)
             }
-            .onAppear {
-                userDataLoader.loadUserData()
+                
             }
         }
     }
-}
 
 
 #Preview {

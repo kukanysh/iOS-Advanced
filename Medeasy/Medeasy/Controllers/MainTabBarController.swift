@@ -25,16 +25,16 @@ class MainTabBarController: UITabBarController {
         let settingsVC = UIHostingController(rootView: MoreView())
         settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "settings"), tag: 3)
         
-        // Remove blur and set solid background for tab bar
-        let appearance = UITabBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .blueish // Change to your desired color
-        appearance.shadowImage = nil
-        appearance.shadowColor = nil
-        tabBar.standardAppearance = appearance
-        if #available(iOS 15.0, *) {
-            tabBar.scrollEdgeAppearance = appearance
-        }
+//        // Remove blur and set solid background for tab bar
+//        let appearance = UITabBarAppearance()
+//        appearance.configureWithOpaqueBackground()
+//        appearance.backgroundColor = .blueish // Change to your desired color
+//        appearance.shadowImage = nil
+//        appearance.shadowColor = nil
+//        tabBar.standardAppearance = appearance
+//        if #available(iOS 15.0, *) {
+//            tabBar.scrollEdgeAppearance = appearance
+//        }
 
         viewControllers = [homeVC, medStatsVC, profileVC, settingsVC]
     }
