@@ -15,7 +15,7 @@ struct ContentView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    
+                    Text("TODOLIST")
                 }
             }.navigationTitle("ToDos")
         }.searchable(text: $searchText, prompt: "Search")
