@@ -11,6 +11,21 @@ struct ChatView: View {
     
     @State private var question: String = ""
     
+    @State private var messages: [Message] = [
+        Message(role: .ai, message: "Hi! How can I help you today?"),
+        Message(role: .user, message: "I feel unwell."),
+        Message(role: .ai, message: "Please describe your symptoms."),
+        Message(role: .user, message: "I have a headache and fever."),
+        Message(role: .ai, message: "Drink a lot of warm water and lay down. You can drink Citramon to release the pain or Ibuprofen."),
+        Message(role: .user, message: "What else can I do?"),
+        Message(role: .ai, message: "Eat by small portions and try to drink more water. Change your clothes if you get sweaty."),
+        Message(role: .user, message: "Okay, thank you so much"),
+        Message(role: .ai, message: "No problem, get well soon!"),
+    ]
+    
+    @StateObject private var keyboard = KeyboardResponder()
+    
+    
     var body: some View {
         ZStack(alignment: .top) {
             
@@ -22,20 +37,20 @@ struct ChatView: View {
                 HStack {
                     Text("MedAI")
                         .font(.system(size: 22, weight: .bold, design: .default))
-                        .foregroundStyle(.indigo)
+                        .foregroundStyle(.blueish)
                         .padding(.top, 55)
-                        .padding(.leading, 90)
+                        .padding(.leading, 100)
                     
                     
                     Spacer()
                     
                     
-                    
+                     
                     Text("KS")
                         .font(.system(size: 22, weight: .bold, design: .default))
                         .foregroundStyle(.lightBlue)
                         .padding(12)
-                        .background(Circle().fill(Color.indigo))
+                        .background(Circle().fill(Color.blueish))
                         .shadow(radius: 5)
                         .padding(.top, 55)
                         .padding(.trailing, 30)
@@ -47,95 +62,70 @@ struct ChatView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     
-                    VStack(spacing: 25) {
+                    VStack(spacing: 16) {
                         
-                        //MARK: - AI answer
                         
-                        HStack(spacing: 20) {
-                            Text("AI")
-                                .font(.system(size: 17, weight: .bold, design: .default))
-                                .foregroundStyle(.lightBlue)
-                                .padding(10)
-                                .background(Circle().fill(Color.teal))
+                        
+                        ForEach(messages) { message in
+                            if message.role == .user {
+                                //MARK: - User input
                                 
-                            
-                            
-                            
-                            Text("How can I help you today?")
-                                .foregroundStyle(.white)
-                                .padding(20)
-                                .background(RoundedRectangle(cornerRadius: 25).fill(Color.teal))
-                                .frame(maxWidth: UIScreen.main.bounds.width * 0.6)
-                            
-                            
-                            Spacer()
-                            
-                            
-                        }.padding(.horizontal, 20)
-                            
-                        
-                        
-                        //MARK: - User input
-                        
-                        HStack(spacing: 20) {
-                            Spacer()
-                            
-                            Text("I am feeling ill. I have a 38 degrees temperature and a cough.")
-                                .foregroundStyle(.white)
-                                .padding(20)
-                                .background(RoundedRectangle(cornerRadius: 25).fill(Color.indigo))
-                                .frame(maxWidth: UIScreen.main.bounds.width * 0.7)
-                            
-                            Text("KS")
-                                .font(.system(size: 17, weight: .bold, design: .default))
-                                .foregroundStyle(.lightBlue)
-                                .padding(10)
-                                .background(Circle().fill(Color.indigo))
-                            
-                            
-                        }.padding(.horizontal, 20)
-                        
-                        
-                        
-                        //MARK: - AI answer
-                        
-                        HStack(spacing: 20) {
-                            Text("AI")
-                                .font(.system(size: 17, weight: .bold, design: .default))
-                                .foregroundStyle(.lightBlue)
-                                .padding(10)
-                                .background(Circle().fill(Color.teal))
+                                HStack(spacing: 20) {
+                                    Spacer()
+                                    
+                                    Text(message.message)
+                                        .foregroundStyle(.white)
+                                        .padding(16)
+                                        .background(RoundedRectangle(cornerRadius: 25).fill(Color.blueish))
+                                        .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .trailing)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                    
+                                }.padding(.trailing, 20)
+                                    .id(message.id)
                                 
-                            
-                            
-                            
-                            Text("Drink a lot of warm water and keep yourself warm. Do not try to work.")
-                                .foregroundStyle(.white)
-                                .padding(20)
-                                .background(RoundedRectangle(cornerRadius: 25).fill(Color.teal))
-                                .frame(maxWidth: UIScreen.main.bounds.width * 0.6)
-                            
-                            
-                            Spacer()
-                            
-                            
-                        }.padding(.horizontal, 20)
-                        
-                        
-                        
+                            } else {
+                                //MARK: - AI answer
+                                
+                                HStack(spacing: 20) {
+                                        
+                                    
+                                    Text(message.message)
+                                        .padding(16)
+                                        .background(RoundedRectangle(cornerRadius: 25).fill(Color.gray).opacity(0.3))
+                                        .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .leading)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                    
+                                    
+                                    Spacer()
+                                    
+                                    
+                                }.padding(.leading, 20)
+                                    .id(message.id)
+                            }
+                        }
+
+               
+           
                         Spacer()
                         
                         
                         
                         
                     }.padding(.top, 140)
+                    .frame(maxWidth: .infinity)
                     
                 }.safeAreaInset(edge: .bottom) {
                     HStack {
                         TextField("Ask your question", text: $question)
                             .padding(.horizontal)
                         
-                        Button(){
+                        Button{
+                            
+                            if !question.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                let newMessage = Message(role: .user, message: question)
+                                messages.append(newMessage)
+                                question = ""
+                            }
                             
                         } label : {
                             Image(systemName: "arrow.up")
@@ -154,8 +144,14 @@ struct ChatView: View {
                                 .padding([.leading, .trailing], 20)
                         )
                     
-                }.padding(.bottom, 30)
-                    .onAppear()
+                }.padding(.bottom, keyboard.currentHeight == 0 ? 90 : keyboard.currentHeight)
+                    .onChange(of: messages) { _ in
+                        if let last = messages.last {
+                            withAnimation {
+                                proxy.scrollTo(last.id, anchor: .bottom)
+                            }
+                        }
+                    }
             }
             
            
@@ -163,6 +159,7 @@ struct ChatView: View {
             
         }.ignoresSafeArea()
         .toolbarBackground(.hidden, for: .navigationBar)
+        .hideKeyboardOnTap()
     }
 }
 

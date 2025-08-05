@@ -153,7 +153,7 @@ struct SignUpView: View {
 
             
             
-        }
+        }.hideKeyboardOnTap()
     }
     
     func changeRootView(to viewController: UIViewController) {

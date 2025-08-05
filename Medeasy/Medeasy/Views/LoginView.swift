@@ -164,7 +164,7 @@ struct LoginView: View {
 
             
             
-        }
+        }.hideKeyboardOnTap()
     }
     
     
