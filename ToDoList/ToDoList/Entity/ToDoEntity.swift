@@ -8,7 +8,7 @@
 import Foundation
 
 struct ToDoEntity: Identifiable, Decodable {
-    let id = UUID()
+    var id = UUID()
     let task: String
     let completed: Bool
     let userId: Int

@@ -8,8 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var searchText: String = ""
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            ScrollView {
+                VStack {
+                    
+                }
+            }.navigationTitle("ToDos")
+        }.searchable(text: $searchText, prompt: "Search")
     }
 }
 
