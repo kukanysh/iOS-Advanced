@@ -11,11 +11,18 @@ struct ContentView: View {
     
     @State var searchText: String = ""
     
+    @StateObject var tasks = ToDoInteractor()
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    Text("TODOLIST")
+                    ForEach($tasks.todos) { todo in
+                        HStack {
+                            Text(todo.title)
+                            Toggle("", isOn: todo.isDone)
+                        }
+                    }
                 }
             }.navigationTitle("ToDos")
         }.searchable(text: $searchText, prompt: "Search")
@@ -24,4 +31,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .preferredColorScheme(.dark)
 }
