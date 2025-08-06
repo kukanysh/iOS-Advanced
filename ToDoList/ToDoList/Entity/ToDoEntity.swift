@@ -13,3 +13,7 @@ struct ToDoEntity: Identifiable, Decodable {
     let completed: Bool
     let userId: Int
 }
+
+struct TodoResponse: Decodable {
+    let todos: [ToDoEntity]
+}

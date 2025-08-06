@@ -15,11 +15,28 @@ protocol ToDo {
     func deleteTodo(id: UUID)
 }
 
+
+
+
 class ToDoInteractor: ObservableObject, ToDo {
     
     
     
-    @Published var todos: [ToDoEntity] = []
+    @Published var todos: [ToDoEntity]
+    
+    init() {
+        self.todos = []
+        
+        // Try loading on init (optional, or keep this in .task in View)
+        Task {
+            do {
+                let loadedTodos = try await fetchTodos()
+                print(loadedTodos)
+            } catch {
+                print("Init fetch error: \(error)")
+            }
+        }
+    }
 
     
     //MARK: - Loading the data
@@ -34,12 +51,13 @@ class ToDoInteractor: ObservableObject, ToDo {
         
         do {
             let data = try Data(contentsOf: url)
-            let decoded = try JSONDecoder().decode([ToDoEntity].self, from: data)
+            let decoded = try JSONDecoder().decode(TodoResponse.self, from: data)
+            
             DispatchQueue.main.async {
-                self.todos = decoded
+                self.todos = decoded.todos
             }
             
-            return decoded
+            return decoded.todos
             
         } catch {
             print("Failed to decode JSON: \(error)")
