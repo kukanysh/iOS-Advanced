@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var searchText: String = ""
+    @State private var searchText: String = ""
     
-    @StateObject var tasks = ToDoInteractor()
+    @StateObject private var tasks = ToDoInteractor()
 
     
     var body: some View {
