@@ -15,7 +15,9 @@ protocol ToDo {
     func deleteTodo(id: UUID)
 }
 
-class ToDoInteractor: ObservableObject {
+class ToDoInteractor: ObservableObject, ToDo {
+    
+    
     
     @Published var todos: [ToDoEntity] = []
 
@@ -48,19 +50,21 @@ class ToDoInteractor: ObservableObject {
     
     //MARK: - Adding the todos
     
-    func addTodos() {
-        
+    func addTodo(_ todo: ToDoEntity) {
+        todos.append(todo)
     }
+    
     
     //MARK: - Editing the todos
     
-    func editTodos() {
-        
+    func editTodo(_ todo: ToDoEntity) {
+        <#code#>
     }
+    
     
     //MARK: - Deleting the todos
     
-    func deleteTodos(){
+    func deleteTodo(id: UUID) {
         
     }
         
