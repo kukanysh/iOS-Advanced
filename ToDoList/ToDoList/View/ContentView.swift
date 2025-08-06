@@ -26,6 +26,13 @@ struct ContentView: View {
                 }
             }.navigationTitle("ToDos")
         }.searchable(text: $searchText, prompt: "Search")
+            .task {
+                do {
+                    try await tasks.fetchTodos()
+                } catch {
+                    print("Failed to load tasks: \(error)")
+                }
+            }
     }
 }
 

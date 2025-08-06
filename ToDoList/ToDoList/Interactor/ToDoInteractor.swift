@@ -50,7 +50,7 @@ class ToDoInteractor: ObservableObject, ToDo {
     
     
     func addTodo(_ todo: ToDoEntity) {
-        <#code#>
+        todos.append(todo)
     }
     
     func editTodo(_ todo: ToDoEntity) {
@@ -58,11 +58,8 @@ class ToDoInteractor: ObservableObject, ToDo {
     }
     
     func deleteTodo(id: UUID) {
-        <#code#>
+        todos.removeAll { $0.id == id }
     }
-    
-            
-    
 }
 
 //MARK: - Error cases
