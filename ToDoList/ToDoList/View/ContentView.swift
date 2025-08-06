@@ -18,8 +18,16 @@ struct ContentView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    ForEach($tasks.todos) { todo in
-                        Text(todo.title)
+                    ForEach(tasks.todos.indices, id: \.self) { index in
+                        let todo = tasks.todos[index]
+                        
+                        HStack {
+                                Text(todo.title)
+                            }
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
+                        
                     }
                 }
             }.navigationTitle("ToDos")

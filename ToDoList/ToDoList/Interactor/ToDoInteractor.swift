@@ -58,7 +58,7 @@ class ToDoInteractor: ObservableObject, ToDo {
     //MARK: - Editing the todos
     
     func editTodo(_ todo: ToDoEntity) {
-        <#code#>
+        
     }
     
     
