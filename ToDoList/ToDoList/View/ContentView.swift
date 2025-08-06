@@ -12,24 +12,101 @@ struct ContentView: View {
     @State private var searchText: String = ""
     
     @StateObject private var tasks = ToDoInteractor()
+    
+    @State var isChecked: Bool
+    
+    @State private var selectedItemID: Int? = nil
 
+    
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    ForEach(tasks.todos.indices, id: \.self) { index in
-                        let todo = tasks.todos[index]
+                    ForEach(0..<10) { item in
                         
-                        HStack {
-                                Text(todo.title)
-                            }
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(10)
+                        VStack(spacing: 16) {
+                            HStack(spacing: 12) {
+                                Button(action: {
+                                    isChecked.toggle()
+                                }) {
+                                    Image(systemName: isChecked ? "checkmark.circle" : "circle")
+                                        .font(.title)
+                                        .foregroundColor(isChecked ? .yellow : .gray)
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.bottom, 60)
+                                
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        Text("Watch films")
+                                            .font(.title2)
+                                            .fontWeight(.semibold)
+                                            .strikethrough(isChecked, color: .gray)
+                                            .foregroundStyle(isChecked ? .gray : .primary)
+                                        
+                                        Text("Finish the 3 parts of the Iron Man and watch Captain America and finish all parts of Avengers")
+                                            .font(.callout)
+                                            .lineLimit(2)
+                                            .fontWeight(.medium)
+                                            .foregroundStyle(isChecked ? .gray : .primary)
+                                        
+                                        
+                                        Text("23/23/20")
+                                            .font(.callout)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    .padding(selectedItemID == item ? 10 : 0)
+                                    .background(
+                                        selectedItemID == item ? Color.gray.opacity(0.4) : Color.clear
+                                        
+                                    ).cornerRadius(16)
+                                        
+                                }
+                                    
+                                .contextMenu {
+                                    Button {
+                                        // edit logic here
+                                    } label: {
+                                        Label("Edit", systemImage: "pencil")
+                                    }
+                                    
+                                    Button {
+                                        // share logic here
+                                    } label: {
+                                        Label("Share", systemImage: "square.and.arrow.up")
+                                    }
+                                    
+                                    Button(role: .destructive) {
+                                        // delete logic here
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                }
+                                
+                                .onLongPressGesture {
+                                    selectedItemID = item
+                                }
+                                
+                                
+                                
+                            }.padding(.horizontal, 10)
+                                
+                            
+                            
+                            Rectangle()
+                                .frame(height: 0.3)
+                                .background(Color.gray)
+                                .padding(.horizontal, 16)
+                            
+                            
+                            
+                        }
+                            
+                            
                         
                     }
-                }
+                }.padding(.bottom, 80)
             }.navigationTitle("ToDos")
         }.searchable(text: $searchText, prompt: "Search")
             .task {
@@ -39,10 +116,39 @@ struct ContentView: View {
                     print("Failed to load todos: \(error)")
                 }
             }
+            .safeAreaInset(edge: .bottom) {
+                ZStack {
+                       // Background
+                    Color(.secondarySystemBackground)
+
+                       // Centered text
+                       Text("7 Tasks")
+                           .font(.callout)
+                           .foregroundStyle(.primary)
+                           .padding(.bottom, 20)
+
+                       // Right button
+                       HStack {
+                           Spacer()
+                           Button {
+                               // Action
+                           } label: {
+                               Image(systemName: "square.and.pencil")
+                                   .font(.title2)
+                                   .foregroundColor(.yellow)
+                           }
+                           .padding(.trailing, 23)
+                           
+                       }.padding(.bottom, 20)
+                   }
+                   .frame(height: 100)
+
+                
+            }.ignoresSafeArea()
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(isChecked: false)
         .preferredColorScheme(.dark)
 }
