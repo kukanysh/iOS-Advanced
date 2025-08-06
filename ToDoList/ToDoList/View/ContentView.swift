@@ -11,17 +11,38 @@ struct ContentView: View {
     
     @State var searchText: String = ""
     
+    @StateObject var tasks = ToDoInteractor()
+
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    Text("TODOLIST")
+                    ForEach($tasks.todos) { $todo in
+                        HStack {
+                            Text(todo.title)
+                            Spacer()
+                            Toggle("", isOn: $todo.isDone)
+                                .labelsHidden()
+                        }
+                        .padding()
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
+                    }
                 }
             }.navigationTitle("ToDos")
         }.searchable(text: $searchText, prompt: "Search")
+            .task {
+                do {
+                    try await tasks.fetchTodos()
+                } catch {
+                    print("Failed to load todos: \(error)")
+                }
+            }
     }
 }
 
 #Preview {
     ContentView()
+        .preferredColorScheme(.dark)
 }
