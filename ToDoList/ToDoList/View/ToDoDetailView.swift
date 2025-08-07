@@ -8,19 +8,22 @@
 import SwiftUI
 
 struct ToDoDetailView: View {
+    
+    let todo: ToDoEntity
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Заняться спортом")
+                Text(todo.task)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                Text("25/08/25")
+                Text("Completed: \(todo.task)")
                     .font(.callout)
                     .foregroundStyle(.secondary)
                 
                 
-                Text("Fjfr ejnfe rnfnrh fnhjferfh rfehjfhere ffern ffh, fnenfj, jf jfnrej fjenrf")
+                Text("\(todo.userId)")
                 
                 
                 Spacer()
@@ -33,6 +36,6 @@ struct ToDoDetailView: View {
 }
 
 #Preview {
-    ToDoDetailView()
+    ToDoDetailView(todo: ToDoEntity(id: UUID(), task: "Finish all of the tasks", completed: false, userId: 2))
         .preferredColorScheme(.dark)
 }

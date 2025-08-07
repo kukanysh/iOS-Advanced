@@ -110,7 +110,7 @@ struct ContentView: View {
             }.navigationTitle("ToDos")
                 
             .navigationDestination(isPresented: $navigateToDetail) {
-                    ToDoDetailView()
+                ToDoDetailView(todo: ToDoEntity(id: UUID(), task: "Finish all of the tasks", completed: false, userId: 2))
             }
             
         }.tint(.yellow)
