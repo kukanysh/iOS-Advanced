@@ -13,8 +13,6 @@ struct ContentView: View {
     
     @StateObject private var tasks = ToDoInteractor()
     
-    @State private var isChecked: Bool = false
-    
     @State private var selectedItemID: Int? = nil
     
     @State private var navigateToDetail = false
@@ -25,43 +23,44 @@ struct ContentView: View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack {
-                    ForEach(0..<10) { item in
+                    ForEach(tasks.todos.indices, id: \.self) { index in
+                        let todo = tasks.todos[index]
                         
                         VStack(spacing: 16) {
                             HStack(spacing: 12) {
                                 Button(action: {
-                                    isChecked.toggle()
+                                    tasks.todos[index].completed.toggle()
                                 }) {
-                                    Image(systemName: isChecked ? "checkmark.circle" : "circle")
+                                    Image(systemName: todo.completed ? "checkmark.circle" : "circle")
                                         .font(.title)
-                                        .foregroundColor(isChecked ? .yellow : .gray)
+                                        .foregroundColor(todo.completed ? .yellow : .gray)
                                 }
                                 .buttonStyle(.plain)
                                 .padding(.bottom, 60)
                                 
                                 HStack {
                                     VStack(alignment: .leading, spacing: 10) {
-                                        Text("Watch films")
+                                        Text(todo.task)
                                             .font(.title2)
                                             .fontWeight(.semibold)
-                                            .strikethrough(isChecked, color: .gray)
-                                            .foregroundStyle(isChecked ? .gray : .primary)
+                                            .strikethrough(todo.completed, color: .gray)
+                                            .foregroundStyle(todo.completed ? .gray : .primary)
                                         
-                                        Text("Finish the 3 parts of the Iron Man and watch Captain America and finish all parts of Avengers")
+                                        Text(todo.task)
                                             .font(.callout)
                                             .lineLimit(2)
                                             .fontWeight(.medium)
-                                            .foregroundStyle(isChecked ? .gray : .primary)
+                                            .foregroundStyle(todo.completed ? .gray : .primary)
                                         
                                         
-                                        Text("23/23/20")
+                                        Text("\(todo.userId)")
                                             .font(.callout)
                                             .foregroundStyle(.secondary)
                                     }
-                                    .padding(.vertical, selectedItemID == item ? 16 : 0)
-                                    .padding(.horizontal, selectedItemID == item ? 8 : 0)
+                                    .padding(.vertical, selectedItemID == index ? 16 : 0)
+                                    .padding(.horizontal, selectedItemID == index ? 8 : 0)
                                     .background(
-                                        selectedItemID == item ? Color.gray.opacity(0.4) : Color.clear,
+                                        selectedItemID == index ? Color.gray.opacity(0.4) : Color.clear,
 
                                     ).cornerRadius(16)
                                         
@@ -90,7 +89,7 @@ struct ContentView: View {
                                 }
                                 
                                 .onLongPressGesture {
-                                    selectedItemID = item
+                                    
                                 }
                                 
                                 
@@ -101,7 +100,7 @@ struct ContentView: View {
                             
                             Rectangle()
                                 .frame(height: 0.3)
-                                .background(Color.gray)
+                                .foregroundColor(.gray)
                                 .padding(.horizontal, 16)
 
                         }
