@@ -15,10 +15,16 @@ protocol ToDo {
     func deleteTodo(id: UUID)
 }
 
+<<<<<<< HEAD
 
 
 
 class ToDoInteractor: ObservableObject, ToDo {
+=======
+class ToDoInteractor: ObservableObject, ToDo {
+
+    
+>>>>>>> feature/todo-router
     
     
     
@@ -53,12 +59,12 @@ class ToDoInteractor: ObservableObject, ToDo {
         return decoded.todos
     }
     
-    //MARK: - Adding the todos
     
     func addTodo(_ todo: ToDoEntity) {
         todos.append(todo)
     }
     
+<<<<<<< HEAD
     
     //MARK: - Editing the todos
     
@@ -69,12 +75,15 @@ class ToDoInteractor: ObservableObject, ToDo {
     
     //MARK: - Deleting the todos
     
+=======
+    func editTodo(_ todo: ToDoEntity) {
+        <#code#>
+    }
+    
+>>>>>>> feature/todo-router
     func deleteTodo(id: UUID) {
         todos.removeAll { $0.id == id }
     }
-        
-    
-    
 }
 
 //MARK: - Error cases

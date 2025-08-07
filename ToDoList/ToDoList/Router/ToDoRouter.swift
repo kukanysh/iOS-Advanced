@@ -6,3 +6,19 @@
 //
 
 import Foundation
+
+protocol ToDoRouterProtocol {
+    func navigateToDetailView(for todo: ToDoEntity)
+}
+
+
+final class ToDoRouter: ToDoRouterProtocol {
+    
+    @Published var selectedToDo: ToDoEntity?
+    
+    func navigateToDetailView(for todo: ToDoEntity) {
+        selectedToDo = todo
+    }
+    
+    
+}

@@ -19,10 +19,13 @@ struct ContentView: View {
 
     
     
+    @StateObject var tasks = ToDoInteractor()
+    
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack {
+<<<<<<< HEAD
                     ForEach(tasks.todos.indices, id: \.self) { index in
                         let todo = tasks.todos[index]
                         
@@ -114,10 +117,22 @@ struct ContentView: View {
             
         }.tint(.yellow)
         .searchable(text: $searchText, prompt: "Search")
+=======
+                    ForEach($tasks.todos) { todo in
+                        HStack {
+                            Text(todo.title)
+                            Toggle("", isOn: todo.isDone)
+                        }
+                    }
+                }
+            }.navigationTitle("ToDos")
+        }.searchable(text: $searchText, prompt: "Search")
+>>>>>>> feature/todo-router
             .task {
                 do {
                     try await tasks.fetchTodos()
                 } catch {
+<<<<<<< HEAD
                     print("Failed to load todos: \(error)")
                 }
             }
@@ -150,6 +165,11 @@ struct ContentView: View {
 
                 
             }.ignoresSafeArea()
+=======
+                    print("Failed to load tasks: \(error)")
+                }
+            }
+>>>>>>> feature/todo-router
     }
 }
 
