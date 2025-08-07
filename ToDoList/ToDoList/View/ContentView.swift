@@ -62,19 +62,7 @@ struct ContentView: View {
                                     .padding(.horizontal, selectedItemID == item ? 8 : 0)
                                     .background(
                                         selectedItemID == item ? Color.gray.opacity(0.4) : Color.clear,
-                                        
-                                        NavigationLink(
-                                            destination: {
-                                                if let item = selectedItemID {
-                                                    ToDoDetailView()
-                                                }
-                                            },
-                                            isActive: $navigateToDetail,
-                                            label: { EmptyView() }
-                                        )
-                                        .hidden()
-                                        
-                                        
+
                                     ).cornerRadius(16)
                                         
                                 }
@@ -90,12 +78,14 @@ struct ContentView: View {
                                         // share logic here
                                     } label: {
                                         Label("Share", systemImage: "square.and.arrow.up")
+                                            
                                     }
                                     
                                     Button(role: .destructive) {
                                         // delete logic here
                                     } label: {
                                         Label("Delete", systemImage: "trash")
+                                            
                                     }
                                 }
                                 
@@ -113,17 +103,18 @@ struct ContentView: View {
                                 .frame(height: 0.3)
                                 .background(Color.gray)
                                 .padding(.horizontal, 16)
-                            
-                            
-                            
+
                         }
-                            
-                            
-                        
                     }
                 }.padding(.bottom, 80)
             }.navigationTitle("ToDos")
-        }.searchable(text: $searchText, prompt: "Search")
+                
+            .navigationDestination(isPresented: $navigateToDetail) {
+                    ToDoDetailView()
+            }
+            
+        }.tint(.yellow)
+        .searchable(text: $searchText, prompt: "Search")
             .task {
                 do {
                     try await tasks.fetchTodos()
