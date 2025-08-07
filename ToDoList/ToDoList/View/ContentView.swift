@@ -71,20 +71,20 @@ struct ContentView: View {
                                     Button {
                                         navigateToDetail = true
                                     } label: {
-                                        Label("Edit", systemImage: "pencil")
+                                        Label("Edit", image: "edit")
                                     }
                                     
                                     Button {
                                         // share logic here
                                     } label: {
-                                        Label("Share", systemImage: "square.and.arrow.up")
+                                        Label("Share", image: "export")
                                             
                                     }
                                     
                                     Button(role: .destructive) {
                                         // delete logic here
                                     } label: {
-                                        Label("Delete", systemImage: "trash")
+                                        Label("Delete", image: "trash")
                                             
                                     }
                                 }
