@@ -25,13 +25,15 @@ class ToDoInteractor: ObservableObject, ToDo {
     @Published var todos: [ToDoEntity]
     
     init() {
+        
         self.todos = []
         
-        // Try loading on init (optional, or keep this in .task in View)
         Task {
             do {
                 let loadedTodos = try await fetchTodos()
-                print(loadedTodos)
+                DispatchQueue.main.async {
+                    self.todos = loadedTodos
+                }
             } catch {
                 print("Init fetch error: \(error)")
             }
@@ -42,28 +44,13 @@ class ToDoInteractor: ObservableObject, ToDo {
     //MARK: - Loading the data
     
     func fetchTodos() async throws -> [ToDoEntity] {
-        
         guard let url = Bundle.main.url(forResource: "todos", withExtension: "json") else {
-            print("todos.json not found")
-            
             throw ToDoError.wrongJsonFile
         }
         
-        do {
-            let data = try Data(contentsOf: url)
-            let decoded = try JSONDecoder().decode(TodoResponse.self, from: data)
-            
-            DispatchQueue.main.async {
-                self.todos = decoded.todos
-            }
-            
-            return decoded.todos
-            
-        } catch {
-            print("Failed to decode JSON: \(error)")
-            throw ToDoError.somethingWentWrong
-        }
-        
+        let data = try Data(contentsOf: url)
+        let decoded = try JSONDecoder().decode(TodoResponse.self, from: data)
+        return decoded.todos
     }
     
     //MARK: - Adding the todos
@@ -83,7 +70,7 @@ class ToDoInteractor: ObservableObject, ToDo {
     //MARK: - Deleting the todos
     
     func deleteTodo(id: UUID) {
-        
+        todos.removeAll { $0.id == id }
     }
         
     
