@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = UIHostingController(rootView: ContentView(isChecked: false))
+        window?.rootViewController = UIHostingController(rootView: ContentView())
         window?.makeKeyAndVisible()
         
     }

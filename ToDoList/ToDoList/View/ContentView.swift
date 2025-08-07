@@ -13,15 +13,17 @@ struct ContentView: View {
     
     @StateObject private var tasks = ToDoInteractor()
     
-    @State var isChecked: Bool
+    @State private var isChecked: Bool = false
     
     @State private var selectedItemID: Int? = nil
+    
+    @State private var navigateToDetail = false
 
     
     
     var body: some View {
-        NavigationView {
-            ScrollView {
+        NavigationStack {
+            ScrollView(showsIndicators: false) {
                 VStack {
                     ForEach(0..<10) { item in
                         
@@ -56,9 +58,22 @@ struct ContentView: View {
                                             .font(.callout)
                                             .foregroundStyle(.secondary)
                                     }
-                                    .padding(selectedItemID == item ? 10 : 0)
+                                    .padding(.vertical, selectedItemID == item ? 16 : 0)
+                                    .padding(.horizontal, selectedItemID == item ? 8 : 0)
                                     .background(
-                                        selectedItemID == item ? Color.gray.opacity(0.4) : Color.clear
+                                        selectedItemID == item ? Color.gray.opacity(0.4) : Color.clear,
+                                        
+                                        NavigationLink(
+                                            destination: {
+                                                if let item = selectedItemID {
+                                                    ToDoDetailView()
+                                                }
+                                            },
+                                            isActive: $navigateToDetail,
+                                            label: { EmptyView() }
+                                        )
+                                        .hidden()
+                                        
                                         
                                     ).cornerRadius(16)
                                         
@@ -66,7 +81,7 @@ struct ContentView: View {
                                     
                                 .contextMenu {
                                     Button {
-                                        // edit logic here
+                                        navigateToDetail = true
                                     } label: {
                                         Label("Edit", systemImage: "pencil")
                                     }
@@ -149,6 +164,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(isChecked: false)
+    ContentView()
         .preferredColorScheme(.dark)
 }
