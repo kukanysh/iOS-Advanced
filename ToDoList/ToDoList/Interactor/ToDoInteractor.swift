@@ -15,53 +15,62 @@ protocol ToDo {
     func deleteTodo(id: UUID)
 }
 
-class ToDoInteractor: ObservableObject {
+
+
+
+class ToDoInteractor: ObservableObject, ToDo {
     
-    @Published var todos: [ToDoEntity] = []
+    
+    
+    @Published var todos: [ToDoEntity]
+    
+    init() {
+        
+        self.todos = []
+        
+        Task {
+            do {
+                let loadedTodos = try await fetchTodos()
+                DispatchQueue.main.async {
+                    self.todos = loadedTodos
+                }
+            } catch {
+                print("Init fetch error: \(error)")
+            }
+        }
+    }
 
     
     //MARK: - Loading the data
     
     func fetchTodos() async throws -> [ToDoEntity] {
-        
         guard let url = Bundle.main.url(forResource: "todos", withExtension: "json") else {
-            print("todos.json not found")
-            
             throw ToDoError.wrongJsonFile
         }
         
-        do {
-            let data = try Data(contentsOf: url)
-            let decoded = try JSONDecoder().decode([ToDoEntity].self, from: data)
-            DispatchQueue.main.async {
-                self.todos = decoded
-            }
-            
-            return decoded
-            
-        } catch {
-            print("Failed to decode JSON: \(error)")
-            throw ToDoError.somethingWentWrong
-        }
-        
+        let data = try Data(contentsOf: url)
+        let decoded = try JSONDecoder().decode(TodoResponse.self, from: data)
+        return decoded.todos
     }
     
     //MARK: - Adding the todos
     
-    func addTodos() {
-        
+    func addTodo(_ todo: ToDoEntity) {
+        todos.append(todo)
     }
+    
     
     //MARK: - Editing the todos
     
-    func editTodos() {
+    func editTodo(_ todo: ToDoEntity) {
         
     }
     
+    
     //MARK: - Deleting the todos
     
-    func deleteTodos(){
-        
+    func deleteTodo(id: UUID) {
+        todos.removeAll { $0.id == id }
     }
         
     

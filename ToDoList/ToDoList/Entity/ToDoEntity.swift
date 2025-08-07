@@ -10,6 +10,10 @@ import Foundation
 struct ToDoEntity: Identifiable, Decodable {
     var id = UUID()
     let task: String
-    let completed: Bool
+    var completed: Bool
     let userId: Int
+}
+
+struct TodoResponse: Decodable {
+    let todos: [ToDoEntity]
 }
