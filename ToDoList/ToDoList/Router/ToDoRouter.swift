@@ -21,7 +21,7 @@ final class ToDoRouter: ObservableObject, ToDoRouterProtocol {
         let presenter = ToDoPresenter()
         let interactor = ToDoInteractor()
         let router = ToDoRouter()
-        let view = ContentView(presenter: presenter)
+        let view = ContentView(presenter: presenter, interactor: interactor)
         
         presenter.interactor = interactor
         presenter.router = self

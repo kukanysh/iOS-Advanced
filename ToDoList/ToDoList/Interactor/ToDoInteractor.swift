@@ -18,6 +18,8 @@ protocol ToDoInteractorProtocol {
     func deleteTodo(id: Int)
     
     func toggleCompletion(for todo: ToDoEntity)
+    
+    var todos: [ToDoEntity] { get set }
 }
 
 
@@ -54,11 +56,12 @@ class ToDoInteractor: ObservableObject, ToDoInteractorProtocol {
     
     func addTodo(_ todo: ToDoEntity) {
         print("Adding todo: \(todo.todo)")
-        todos.append(todo)
-        
-        // Ensure UI update happens on main thread immediately
-        DispatchQueue.main.async {
-            self.presenter?.view?.updateTodos(self.todos)
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.todos.append(todo)
+            
+            DispatchQueue.main.async {
+                self.presenter?.view?.updateTodos(self.todos)
+            }
         }
         
         print("Added new todo. Total count: \(todos.count)")
@@ -67,15 +70,14 @@ class ToDoInteractor: ObservableObject, ToDoInteractorProtocol {
     //MARK: - Editing the todos
 
     func editTodo(_ todo: ToDoEntity) {
-        if let index = todos.firstIndex(where: { $0.id == todo.id }) {
-            todos[index] = todo
-            
-            // Update UI on main thread
-            DispatchQueue.main.async {
-                self.presenter?.view?.updateTodos(self.todos)
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let index = self.todos.firstIndex(where: { $0.id == todo.id }) {
+                self.todos[index] = todo
+                
+                DispatchQueue.main.async {
+                    self.presenter?.view?.updateTodos(self.todos)
+                }
             }
-            
-            print("Updated todo: \(todo.todo)")
         }
     }
     
@@ -84,15 +86,20 @@ class ToDoInteractor: ObservableObject, ToDoInteractorProtocol {
     
     func deleteTodo(id: Int) {
         let beforeCount = todos.count
-        todos.removeAll { $0.id == id }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.todos.removeAll { $0.id == id }
+            
+            DispatchQueue.main.async {
+                self.presenter?.view?.updateTodos(self.todos)
+            }
+        }
+        
         let afterCount = todos.count
         
         print("Deleted todo with id: \(id). Before: \(beforeCount), After: \(afterCount)")
         
-        // Update UI on main thread
-        DispatchQueue.main.async {
-            self.presenter?.view?.updateTodos(self.todos)
-        }
+        
     }
     
     func toggleCompletion(for todo: ToDoEntity) {

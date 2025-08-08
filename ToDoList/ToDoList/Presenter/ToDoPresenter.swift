@@ -13,7 +13,7 @@ protocol ToDoPresenterProtocol {
     var interactor: ToDoInteractorProtocol? { get set}
     var view: ToDoViewProtocol? { get set }
     
-    func fetch()
+    func fetch() async
     func didSelectTodo(_ todo: ToDoEntity)
     
 }
@@ -26,14 +26,14 @@ class ToDoPresenter: ObservableObject, ToDoPresenterProtocol {
     
     @Published var todos: [ToDoEntity] = []
     
-    func fetch() {
+    func fetch() async {
         Task {
             do {
-                if let todos = try await interactor?.fetchTodos() {
-                    view?.updateTodos(todos)
-                }
+                let fetchedTodos = try await interactor?.fetchTodos() ?? []
+                interactor?.todos = fetchedTodos
+                view?.updateTodos(fetchedTodos)
             } catch {
-                print("Failed to fetch todos: \(error)")
+                print("Fetch failed: \(error)")
             }
         }
     }

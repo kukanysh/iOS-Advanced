@@ -17,21 +17,24 @@ protocol ToDoViewProtocol {
 //MARK: - View
 
 struct ContentView: View, ToDoViewProtocol {
+    
      var presenter: ToDoPresenterProtocol?
+    @ObservedObject var interactor: ToDoInteractor
     
     
-    init(presenter: ToDoPresenterProtocol?) {
+    init(presenter: ToDoPresenterProtocol?, interactor: ToDoInteractor) {
         self.presenter = presenter
+        self.interactor = interactor
         if var localPresenter = presenter {
             localPresenter.view = self
         }
     }
     
-    @State private var todos: [ToDoEntity] = []
+    
     
     func updateTodos(_ todos: [ToDoEntity]) {
         DispatchQueue.main.async {
-            self.todos = todos
+            self.interactor.todos = todos
         }
     }
     
@@ -42,6 +45,16 @@ struct ContentView: View, ToDoViewProtocol {
     @State private var selectedTask: ToDoEntity? = nil
     
     @State private var showAddTask = false
+    
+    private var filteredTodos: [ToDoEntity] {
+        if searchText.isEmpty {
+            return interactor.todos
+        } else {
+            return interactor.todos.filter {
+                $0.todo.localizedCaseInsensitiveContains(searchText)
+            }
+        }
+    }
 
     
     
@@ -49,8 +62,8 @@ struct ContentView: View, ToDoViewProtocol {
         NavigationStack {
             ScrollView(showsIndicators: false) {
                 VStack {
-                    ForEach(todos.indices, id: \.self) { index in
-                        taskCard(index: index)
+                    ForEach(filteredTodos, id: \.self) { todo in
+                        taskCard(todo: todo)
                     }
                 }.padding(.bottom, 80)
             }.navigationTitle("ToDos")
@@ -71,7 +84,7 @@ struct ContentView: View, ToDoViewProtocol {
                 Color(.secondarySystemBackground)
 
                     // Centered text
-            Text("\(todos.count) Task\(todos.count == 1 ? "" : "s")")
+                Text("\(interactor.todos.count) Task\(interactor.todos.count == 1 ? "" : "s")")
                 .font(.callout)
                 .foregroundStyle(.primary)
                 .padding(.bottom, 20)
@@ -94,9 +107,8 @@ struct ContentView: View, ToDoViewProtocol {
 
             
         }.ignoresSafeArea()
-            .onAppear {
-                (presenter as? ToDoPresenter)?.view = self
-                presenter?.fetch()
+            .task {
+                await presenter?.fetch()
             }
     }
 }
@@ -105,37 +117,39 @@ struct ContentView: View, ToDoViewProtocol {
 
 extension ContentView {
     @ViewBuilder
-    private func taskCard(index: Int) -> some View {
+    private func taskCard(todo: ToDoEntity) -> some View {
         
-        let todoItem = todos[index]
+        let todoItem = interactor.todos
         
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top, spacing: 12) {
                 Button(action: {
-                    todos[index].completed.toggle()
+                    if let index = interactor.todos.firstIndex(where: { $0.id == todo.id }) {
+                        interactor.todos[index].completed.toggle()
+                    }
                 }) {
-                    Image(systemName: todoItem.completed ? "checkmark.circle" : "circle")
+                    Image(systemName: todo.completed ? "checkmark.circle" : "circle")
                         .font(.title)
-                        .foregroundColor(todoItem.completed ? .yellow : .gray)
+                        .foregroundColor(todo.completed ? .yellow : .gray)
                 }
                 .buttonStyle(.plain)
                 
                 HStack {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text(todoItem.todo)
+                        Text(todo.todo)
                             .font(.title3)
                             .fontWeight(.semibold)
-                            .strikethrough(todoItem.completed, color: .gray)
-                            .foregroundStyle(todoItem.completed ? .gray : .primary)
+                            .strikethrough(todo.completed, color: .gray)
+                            .foregroundStyle(todo.completed ? .gray : .primary)
                         
-                        Text(todoItem.todo)
+                        Text(todo.todo)
                             .font(.callout)
                             .lineLimit(2)
                             .fontWeight(.medium)
-                            .foregroundStyle(todoItem.completed ? .gray : .primary)
+                            .foregroundStyle(todo.completed ? .gray : .primary)
                         
                         
-                        Text("\(todoItem.userId)")
+                        Text("\(todo.userId)")
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
@@ -148,7 +162,7 @@ extension ContentView {
                 }
                 .contextMenu {
                     Button {
-                        selectedTask = todoItem
+                        selectedTask = todo
                         navigateToDetail = true
                     } label: {
                         Label("Edit", image: "edit")
@@ -162,7 +176,7 @@ extension ContentView {
                     }
                     
                     Button(role: .destructive) {
-                        presenter?.interactor?.deleteTodo(id: todoItem.id)
+                        presenter?.interactor?.deleteTodo(id: todo.id)
                     } label: {
                         Label("Delete", image: "trash")
                     }
@@ -189,7 +203,7 @@ extension ContentView {
     presenter.interactor = interactor
     let router = ToDoRouter()
     presenter.router = router
-    
-    return ContentView(presenter: presenter)
+
+    return ContentView(presenter: presenter, interactor: interactor)
         .preferredColorScheme(.dark)
 }
