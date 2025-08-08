@@ -7,13 +7,9 @@
 
 import Foundation
 
-struct ToDoEntity: Identifiable, Decodable {
-    var id = UUID()
-    let task: String
+struct ToDoEntity: Identifiable, Codable, Hashable {
+    var id: Int
+    var todo: String
     var completed: Bool
     let userId: Int
-}
-
-struct TodoResponse: Decodable {
-    let todos: [ToDoEntity]
 }

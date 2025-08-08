@@ -8,18 +8,41 @@
 import Foundation
 
 protocol ToDoPresenterProtocol {
-    func didFetchTodos(_ todos: [ToDoEntity])
+    
+    var router: ToDoRouterProtocol? { get set }
+    var interactor: ToDoInteractorProtocol? { get set}
+    var view: ToDoViewProtocol? { get set }
+    
+    func fetch()
     func didSelectTodo(_ todo: ToDoEntity)
+    
 }
 
-final class ToDoPresenter: ObservableObject, ToDoPresenterProtocol {
-    func didFetchTodos(_ todos: [ToDoEntity]) {
-        <#code#>
+class ToDoPresenter: ObservableObject, ToDoPresenterProtocol {
+        
+    var router: ToDoRouterProtocol?
+    var interactor: ToDoInteractorProtocol?
+    var view: ToDoViewProtocol?
+    
+    @Published var todos: [ToDoEntity] = []
+    
+    func fetch() {
+        Task {
+            do {
+                if let todos = try await interactor?.fetchTodos() {
+                    view?.updateTodos(todos)
+                }
+            } catch {
+                print("Failed to fetch todos: \(error)")
+            }
+        }
     }
     
     func didSelectTodo(_ todo: ToDoEntity) {
-        <#code#>
+        router?.navigateToDetailView(todo: todo)
+        interactor?.toggleCompletion(for: todo)
     }
+    
     
     
 }

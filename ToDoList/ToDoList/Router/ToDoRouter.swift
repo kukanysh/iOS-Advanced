@@ -4,20 +4,42 @@
 //
 //  Created by Куаныш Спандияр on 06.08.2025.
 //
-
+//
 import Foundation
+import SwiftUI
 
 protocol ToDoRouterProtocol {
-    func navigateToDetailView(for todo: ToDoEntity)
+    func start() -> AnyView
+    func navigateToDetailView(todo: ToDoEntity)
 }
 
 
-final class ToDoRouter: ToDoRouterProtocol {
+final class ToDoRouter: ObservableObject, ToDoRouterProtocol {
     
-    @Published var selectedToDo: ToDoEntity?
     
-    func navigateToDetailView(for todo: ToDoEntity) {
+    func start() -> AnyView {
+        let presenter = ToDoPresenter()
+        let interactor = ToDoInteractor()
+        let router = ToDoRouter()
+        let view = ContentView(presenter: presenter)
+        
+        presenter.interactor = interactor
+        presenter.router = self
+        presenter.view = view
+        interactor.presenter = presenter
+        
+        return AnyView(view)
+    }
+    
+    
+    
+    @Published var selectedToDo: ToDoEntity? = nil
+    @Published var isShowingDetail: Bool = false
+    
+    
+    func navigateToDetailView(todo: ToDoEntity) {
         selectedToDo = todo
+        isShowingDetail = true
     }
     
     

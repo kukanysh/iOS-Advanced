@@ -20,7 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = UIHostingController(rootView: ContentView())
+        let router = ToDoRouter()
+        let rootView = router.start()
+        
+        window?.rootViewController = UIHostingController(rootView: rootView)
         window?.makeKeyAndVisible()
         
     }
