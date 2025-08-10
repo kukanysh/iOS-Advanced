@@ -70,9 +70,15 @@ struct ContentView: View, ToDoViewProtocol {
         
         NavigationStack(path: $navigationPath) {
             ScrollView(showsIndicators: false) {
-                VStack {
+                VStack(alignment: .leading, spacing: 10) {
                     ForEach(filteredTodos, id: \.self) { todo in
                         taskCard(todo: todo)
+                        
+                            Rectangle()
+                                .frame(height: 0.5)
+                                .foregroundColor(.gray.opacity(0.5))
+                                .padding(.horizontal, 16)
+                        
                     }
                 }.padding(.bottom, 80)
             }.navigationTitle("ToDos")
@@ -178,12 +184,6 @@ extension ContentView {
                             .font(.callout)
                             .foregroundStyle(.secondary)
                     }
-//                    .padding(.vertical, selectedItemID == index ? 16 : 0)
-//                    .padding(.horizontal, selectedItemID == index ? 8 : 0)
-//                    .background(
-//                        selectedItemID == index ? Color.gray.opacity(0.4) : Color.clear
-//                    ).cornerRadius(16)
-                    
                 }
                 .contextMenu {
                     Button {
@@ -222,12 +222,6 @@ extension ContentView {
                 
             }.padding(.horizontal, 10)
             
-            
-            
-            Rectangle()
-                .frame(height: 0.3)
-                .foregroundColor(.gray)
-                .padding(.horizontal, 16)
         }
     }
 }
