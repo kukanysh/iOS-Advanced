@@ -8,7 +8,7 @@
 import Foundation
 
 struct ToDoEntity: Identifiable, Codable, Hashable {
-    var id: Int
+    let id: Int
     var todo: String
     var completed: Bool
     let userId: Int

@@ -27,14 +27,18 @@ class ToDoPresenter: ObservableObject, ToDoPresenterProtocol {
     @Published var todos: [ToDoEntity] = []
     
     func fetch() async {
-        Task {
-            do {
-                let fetchedTodos = try await interactor?.fetchTodos() ?? []
-                interactor?.todos = fetchedTodos
-                view?.updateTodos(fetchedTodos)
-            } catch {
-                print("Fetch failed: \(error)")
+        do {
+            // First try to migrate data if needed
+            await (interactor as? ToDoInteractor)?.migrateFromJSONIfNeeded()
+            
+            // Then fetch todos
+            let fetchedTodos = try await interactor?.fetchTodos() ?? []
+            DispatchQueue.main.async {
+                self.interactor?.todos = fetchedTodos
+                self.view?.updateTodos(fetchedTodos)
             }
+        } catch {
+            print("Fetch failed: \(error)")
         }
     }
     

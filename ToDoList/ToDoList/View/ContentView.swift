@@ -22,12 +22,15 @@ struct ContentView: View, ToDoViewProtocol {
     @ObservedObject var interactor: ToDoInteractor
     
     
-    init(presenter: ToDoPresenterProtocol?, interactor: ToDoInteractor) {
+    init(presenter: ToDoPresenterProtocol? = nil, interactor: ToDoInteractor) {
+        var presenter = presenter ?? ToDoPresenter()
         self.presenter = presenter
         self.interactor = interactor
-        if var localPresenter = presenter {
-            localPresenter.view = self
-        }
+        
+        // Set up bidirectional relationships
+        presenter.interactor = interactor
+        interactor.presenter = presenter as? ToDoPresenter
+        presenter.view = self
     }
     
     
@@ -108,7 +111,12 @@ struct ContentView: View, ToDoViewProtocol {
             
         }.ignoresSafeArea()
             .task {
-                await presenter?.fetch()
+                do {
+                    await presenter?.fetch()
+                } catch {
+                    // Show an alert or error message to the user
+                    print("Error: \(error.localizedDescription)")
+                }
             }
     }
 }
@@ -119,14 +127,10 @@ extension ContentView {
     @ViewBuilder
     private func taskCard(todo: ToDoEntity) -> some View {
         
-        let todoItem = interactor.todos
-        
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top, spacing: 12) {
                 Button(action: {
-                    if let index = interactor.todos.firstIndex(where: { $0.id == todo.id }) {
-                        interactor.todos[index].completed.toggle()
-                    }
+                    presenter?.didSelectTodo(todo)
                 }) {
                     Image(systemName: todo.completed ? "checkmark.circle" : "circle")
                         .font(.title)
@@ -188,7 +192,6 @@ extension ContentView {
             }.padding(.horizontal, 10)
             
             
-            
             Rectangle()
                 .frame(height: 0.3)
                 .foregroundColor(.gray)
@@ -199,11 +202,15 @@ extension ContentView {
 
 #Preview {
     let interactor = ToDoInteractor()
+    // Add some test data
+    interactor.todos = [
+        ToDoEntity(id: 1, todo: "Test task 1", completed: false, userId: 1),
+        ToDoEntity(id: 2, todo: "Test task 2", completed: true, userId: 1)
+    ]
+    
     let presenter = ToDoPresenter()
     presenter.interactor = interactor
-    let router = ToDoRouter()
-    presenter.router = router
-
+    
     return ContentView(presenter: presenter, interactor: interactor)
         .preferredColorScheme(.dark)
 }
