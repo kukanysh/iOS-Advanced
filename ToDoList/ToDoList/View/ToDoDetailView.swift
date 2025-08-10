@@ -8,126 +8,74 @@
 import SwiftUI
 
 struct ToDoDetailView: View {
-    
-    @State private var editedTask: ToDoEntity
-    @State private var isEditing: Bool = false
-    @Environment(\.dismiss) private var dismiss
-    
+    var task: ToDoEntity
     var presenter: ToDoPresenterProtocol?
-    
-    init(tasks: ToDoEntity, presenter: ToDoPresenterProtocol? = nil) {
-        self._editedTask = State(initialValue: tasks)
+
+    @State private var title: String
+    @State private var userIdText: String
+    @State private var completed: Bool
+    @Environment(\.dismiss) private var dismiss
+
+    init(task: ToDoEntity, presenter: ToDoPresenterProtocol?) {
+        self.task = task
         self.presenter = presenter
+        _title = State(initialValue: task.todo)
+        _userIdText = State(initialValue: String(task.userId))
+        _completed = State(initialValue: task.completed)
     }
-    
+
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                
-                // Title section
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Task")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
-                    
-                    if isEditing {
-                        TextField("Task title", text: $editedTask.todo, axis: .vertical)
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .textFieldStyle(.plain)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 12)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                    } else {
-                        Text(editedTask.todo)
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                    }
-                }
-                
-                // Status section
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Status")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
-                    
-                    HStack {
-                        Button(action: {
-                            editedTask.completed.toggle()
-                        }) {
-                            Image(systemName: editedTask.completed ? "checkmark.circle.fill" : "circle")
-                                .font(.title2)
-                                .foregroundColor(editedTask.completed ? .yellow : .gray)
-                        }
-                        .buttonStyle(.plain)
-                        
-                        Text(editedTask.completed ? "Completed" : "Not Completed")
-                            .font(.callout)
-                            .foregroundStyle(editedTask.completed ? .green : .orange)
-                    }
-                }
-                
-                // User ID section
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("User ID")
-                        .font(.headline)
-                        .foregroundStyle(.secondary)
-                    
-                    Text("\(editedTask.userId)")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
-                
-                Spacer()
-                
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 20)
+        Form {
+            TextField("Title", text: $title)
+            TextField("User ID", text: $userIdText)
+                .keyboardType(.numberPad)
+            Toggle("Completed", isOn: $completed)
         }
-        .navigationTitle("Task Details")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Edit Task")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(isEditing ? "Save" : "Edit") {
-                    if isEditing {
-                        saveChanges()
-                    }
-                    isEditing.toggle()
-                }
-                .fontWeight(.semibold)
-                .foregroundColor(.yellow)
-            }
-        }
-        .navigationBarBackButtonHidden(isEditing)
-        .toolbar {
-            if isEditing {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        cancelEditing()
-                    }
-                    .foregroundColor(.red)
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Save") {
+                    guard let uid = Int(userIdText) else { return }
+                    let edited = ToDoEntity(
+                        id: task.id,
+                        todo: title,
+                        completed: completed,
+                        userId: uid
+                    )
+                    presenter?.editTodo(edited)
+                    dismiss()
                 }
             }
         }
-    }
-    
-    private func saveChanges() {
-        // Update through the presenter/interactor
-        presenter?.interactor?.editTodo(editedTask)
-        
-        // You might want to add a success notification here
-        print("Task updated: \(editedTask.todo)")
-    }
-    
-    private func cancelEditing() {
-        // Reset to original state if needed
-        // You might want to keep the original task reference to reset to
-        isEditing = false
     }
 }
 
-#Preview {
-    ToDoDetailView(tasks: ToDoEntity(id: 1, todo: "fddf", completed: false, userId: 23))
-        .preferredColorScheme(.dark)
+// MARK: - Preview
+
+#if DEBUG
+private final class MockPresenter: ToDoPresenterProtocol {
+    var router: ToDoRouterProtocol?
+    var interactor: ToDoInteractorProtocol?
+    var view: ToDoViewProtocol?
+
+    func fetchTodos() async throws -> [ToDoEntity] { [] }
+    func addTodo(_ todo: ToDoEntity) { }
+    func editTodo(_ todo: ToDoEntity) { print("Mock edit called: \(todo)") }
+    func deleteTodo(id: Int) { }
+    func toggleCompletion(for todo: ToDoEntity) { }
+    func search(query: String) { }
+    func fetchTodosFromCoreData() { }
+    func didSelectTodo(_ todo: ToDoEntity) { }
 }
+
+struct ToDoDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        let mock = MockPresenter()
+        let sample = ToDoEntity(id: 1, todo: "Sample task", completed: false, userId: 42)
+        return NavigationView {
+            ToDoDetailView(task: sample, presenter: mock)
+        }
+        .preferredColorScheme(.dark)
+    }
+}
+#endif

@@ -7,42 +7,64 @@
 
 import Foundation
 
-protocol ToDoPresenterProtocol {
-    
+protocol ToDoPresenterProtocol: AnyObject {
     var router: ToDoRouterProtocol? { get set }
-    var interactor: ToDoInteractorProtocol? { get set}
+    var interactor: ToDoInteractorProtocol? { get set }
     var view: ToDoViewProtocol? { get set }
-    
-    func fetch() async
+
+    // fetch returns todos (bridge to interactor)
+    func fetchTodos() async throws -> [ToDoEntity]
+
+    // actions
+    func addTodo(_ todo: ToDoEntity)
+    func editTodo(_ todo: ToDoEntity)
+    func deleteTodo(id: Int)
+    func toggleCompletion(for todo: ToDoEntity)
+    func search(query: String)
+    func fetchTodosFromCoreData()
     func didSelectTodo(_ todo: ToDoEntity)
-    
 }
 
-class ToDoPresenter: ObservableObject, ToDoPresenterProtocol {
-        
+final class ToDoPresenter: ToDoPresenterProtocol {
     var router: ToDoRouterProtocol?
     var interactor: ToDoInteractorProtocol?
     var view: ToDoViewProtocol?
-    
-    @Published var todos: [ToDoEntity] = []
-    
-    func fetch() async {
-        Task {
-            do {
-                let fetchedTodos = try await interactor?.fetchTodos() ?? []
-                interactor?.todos = fetchedTodos
-                view?.updateTodos(fetchedTodos)
-            } catch {
-                print("Fetch failed: \(error)")
-            }
+
+    func fetchTodos() async throws -> [ToDoEntity] {
+        guard let interactor = interactor else { return [] }
+        let todos = try await interactor.fetchTodos()
+        // ensure view updated on main
+        DispatchQueue.main.async {
+            self.view?.updateTodos(todos)
         }
+        return todos
     }
-    
-    func didSelectTodo(_ todo: ToDoEntity) {
-        router?.navigateToDetailView(todo: todo)
+
+    func addTodo(_ todo: ToDoEntity) {
+        interactor?.addTodo(todo)
+    }
+
+    func editTodo(_ todo: ToDoEntity) {
+        interactor?.editTodo(todo)
+    }
+
+    func deleteTodo(id: Int) {
+        interactor?.deleteTodo(id: id)
+    }
+
+    func toggleCompletion(for todo: ToDoEntity) {
         interactor?.toggleCompletion(for: todo)
     }
-    
-    
-    
+
+    func search(query: String) {
+        interactor?.searchTodo(query: query)
+    }
+
+    func fetchTodosFromCoreData() {
+        interactor?.fetchTodosFromCoreData()
+    }
+
+    func didSelectTodo(_ todo: ToDoEntity) {
+        router?.navigateToDetailView(todo: todo)
+    }
 }
