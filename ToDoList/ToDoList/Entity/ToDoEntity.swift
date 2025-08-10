@@ -12,4 +12,10 @@ struct ToDoEntity: Identifiable, Codable, Hashable {
     var todo: String
     var completed: Bool
     let userId: Int
+    
+    
+    //For the new task creation because api and json did not have that
+    var taskDescription: String?
+    var creationDate: Date?
+    
 }

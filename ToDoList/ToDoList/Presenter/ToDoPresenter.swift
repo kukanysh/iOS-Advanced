@@ -43,8 +43,24 @@ class ToDoPresenter: ObservableObject, ToDoPresenterProtocol {
     }
     
     func didSelectTodo(_ todo: ToDoEntity) {
-        router?.navigateToDetailView(todo: todo)
-        interactor?.toggleCompletion(for: todo)
+        Task {
+            do {
+                // Create a mutable copy
+                var updatedTodo = todo
+                updatedTodo.completed.toggle()
+                
+                // Update in Core Data through interactor
+                await MainActor.run {
+                    router?.navigateToDetailView(todo: todo)
+                    interactor?.toggleCompletion(for: updatedTodo)
+                }
+                
+                // Refresh the list
+                await fetch()
+            } catch {
+                print("Error toggling completion: \(error)")
+            }
+        }
     }
     
     

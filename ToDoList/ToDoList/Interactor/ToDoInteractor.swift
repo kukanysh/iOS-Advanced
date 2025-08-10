@@ -8,6 +8,9 @@
 import Foundation
 import CoreData
 
+
+//MARK: - Protocol
+
 protocol ToDoInteractorProtocol {
     var presenter: ToDoPresenter? { get set }
     
@@ -38,7 +41,6 @@ class ToDoInteractor: ObservableObject, ToDoInteractorProtocol {
                 do {
                     let request = NSFetchRequest<NSManagedObject>(entityName: "ToDoModel")
                     request.sortDescriptors = [
-                        NSSortDescriptor(key: "completed", ascending: true),
                         NSSortDescriptor(key: "id", ascending: false)
                     ]
                     
@@ -295,19 +297,4 @@ class ToDoInteractor: ObservableObject, ToDoInteractorProtocol {
 enum ToDoError: Error, LocalizedError {
     case wrongJsonFile
     case somethingWentWrong
-    case todoNotFound
-    case coreDataError(Error)
-    
-    var errorDescription: String? {
-        switch self {
-        case .wrongJsonFile:
-            return "JSON file not found or invalid"
-        case .somethingWentWrong:
-            return "Something went wrong"
-        case .todoNotFound:
-            return "Todo item not found"
-        case .coreDataError(let error):
-            return "Database error: \(error.localizedDescription)"
-        }
-    }
 }

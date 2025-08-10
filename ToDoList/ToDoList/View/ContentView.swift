@@ -20,17 +20,21 @@ struct ContentView: View, ToDoViewProtocol {
     
      var presenter: ToDoPresenterProtocol?
     @ObservedObject var interactor: ToDoInteractor
+    let isFromAPI: Bool
     
     
-    init(presenter: ToDoPresenterProtocol? = nil, interactor: ToDoInteractor) {
+    
+    init(presenter: ToDoPresenterProtocol? = nil, interactor: ToDoInteractor, isFromAPI: Bool = false) {
         var presenter = presenter ?? ToDoPresenter()
         self.presenter = presenter
         self.interactor = interactor
+        self.isFromAPI = isFromAPI
         
         // Set up bidirectional relationships
         presenter.interactor = interactor
         interactor.presenter = presenter as? ToDoPresenter
         presenter.view = self
+        
     }
     
     
@@ -43,11 +47,9 @@ struct ContentView: View, ToDoViewProtocol {
     
     @State private var searchText: String = ""
     
-    @State private var navigateToDetail = false
-    
     @State private var selectedTask: ToDoEntity? = nil
     
-    @State private var showAddTask = false
+    @State private var navigationPath = NavigationPath()
     
     private var filteredTodos: [ToDoEntity] {
         if searchText.isEmpty {
@@ -58,11 +60,15 @@ struct ContentView: View, ToDoViewProtocol {
             }
         }
     }
+    
+    //@State private var contextMenuActive = false
 
     
-    
     var body: some View {
-        NavigationStack {
+        
+        //MARK: - Navigation Stack
+        
+        NavigationStack(path: $navigationPath) {
             ScrollView(showsIndicators: false) {
                 VStack {
                     ForEach(filteredTodos, id: \.self) { todo in
@@ -70,18 +76,29 @@ struct ContentView: View, ToDoViewProtocol {
                     }
                 }.padding(.bottom, 80)
             }.navigationTitle("ToDos")
-                .navigationDestination(isPresented: $navigateToDetail) {
-                    if let selectedTask {
-                        ToDoDetailView(tasks: selectedTask, presenter: presenter)
-                    }
+                .navigationDestination(for: ToDoEntity.self) { task in
+                    ToDoDetailView(
+                        tasks: task,
+                        presenter: presenter,
+                        startEditing: true
+                    )
                 }
-                .sheet(isPresented: $showAddTask) {
-                    AddTaskView(presenter: presenter)
+                .navigationDestination(for: String.self) { route in
+                    if route == "addNewTask" {
+                        ToDoDetailView(
+                            tasks: ToDoEntity(id: 0, todo: "", completed: false, userId: 1),
+                            presenter: presenter,
+                            isNewTask: true
+                        )
+                    }
                 }
             
         }.tint(.yellow)
         .searchable(text: $searchText, prompt: "Search")
         .safeAreaInset(edge: .bottom) {
+            
+            //MARK: - Bottom bar
+            
             ZStack {
                     // Background
                 Color(.secondarySystemBackground)
@@ -96,7 +113,7 @@ struct ContentView: View, ToDoViewProtocol {
                     HStack {
                         Spacer()
                         Button {
-                            showAddTask = true
+                            navigationPath.append("addNewTask")
                         } label: {
                             Image(systemName: "square.and.pencil")
                                 .font(.title2)
@@ -122,6 +139,7 @@ struct ContentView: View, ToDoViewProtocol {
 }
 
 
+//MARK: - View extension card
 
 extension ContentView {
     @ViewBuilder
@@ -146,11 +164,14 @@ extension ContentView {
                             .strikethrough(todo.completed, color: .gray)
                             .foregroundStyle(todo.completed ? .gray : .primary)
                         
-                        Text(todo.todo)
-                            .font(.callout)
-                            .lineLimit(2)
-                            .fontWeight(.medium)
-                            .foregroundStyle(todo.completed ? .gray : .primary)
+                        if !isFromAPI || todo.taskDescription?.isEmpty == false {
+                            Text(todo.taskDescription ?? todo.todo)
+                                .font(.callout)
+                                .lineLimit(2)
+                                .foregroundStyle(.secondary)
+                                .foregroundStyle(todo.completed ? .gray : .primary)
+                        }
+                            
                         
                         
                         Text("\(todo.userId)")
@@ -167,7 +188,12 @@ extension ContentView {
                 .contextMenu {
                     Button {
                         selectedTask = todo
-                        navigateToDetail = true
+                        navigationPath.append(todo)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            selectedTask = todo
+                        }
+                        
                     } label: {
                         Label("Edit", image: "edit")
                     }
@@ -184,12 +210,18 @@ extension ContentView {
                     } label: {
                         Label("Delete", image: "trash")
                     }
-                }
-                .onLongPressGesture {
                     
                 }
+//                .onAppear { contextMenuActive = true }
+//                .onDisappear { contextMenuActive = false }
+//                .background(contextMenuActive ? Color.gray.opacity(0.4) : Color.clear)
+//                .padding(.horizontal, contextMenuActive ? 8 : 0)
+//                .padding(.vertical, contextMenuActive ? 16 : 0)
+                
+                //Tried to edit the background but could not
                 
             }.padding(.horizontal, 10)
+            
             
             
             Rectangle()
@@ -199,6 +231,9 @@ extension ContentView {
         }
     }
 }
+
+
+//MARK: - Preview
 
 #Preview {
     let interactor = ToDoInteractor()
