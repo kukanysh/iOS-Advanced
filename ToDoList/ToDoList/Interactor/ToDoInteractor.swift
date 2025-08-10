@@ -40,9 +40,6 @@ class ToDoInteractor: ObservableObject, ToDoInteractorProtocol {
             context.perform {
                 do {
                     let request = NSFetchRequest<NSManagedObject>(entityName: "ToDoModel")
-                    request.sortDescriptors = [
-                        NSSortDescriptor(key: "id", ascending: false)
-                    ]
                     
                     let coreDataTodos = try context.fetch(request)
                     print("Fetched \(coreDataTodos.count) todos from Core Data") // Debug print
